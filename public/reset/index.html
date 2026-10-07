@@ -10,7 +10,7 @@
   <meta name="description" content="Set a new secure password for your Noa Ai account." />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+  <link rel="icon" type="image/png" href="/assets/logo.png" />
   <link rel="apple-touch-icon" href="/assets/logo.png" />
   <meta name="theme-color" content="#07050D" />
 
@@ -26,22 +26,25 @@
   <style>
     :root {
       --bg: #07050D;
-      --card-bg: rgba(13, 10, 22, 0.78);
+      --surface: #0E0B17;
+      --card-bg: linear-gradient(180deg, rgba(17, 13, 29, 0.78) 0%, rgba(10, 7, 20, 0.9) 100%);
       --card-border: rgba(255, 255, 255, 0.08);
-      --card-border-top: rgba(168, 85, 247, 0.4);
-      --input-bg: rgba(255, 255, 255, 0.03);
+      --card-border-top: rgba(168, 85, 247, 0.45);
+      --input-bg: rgba(255, 255, 255, 0.035);
       --input-border: rgba(255, 255, 255, 0.1);
-      --input-focus: #a855f7;
-      --primary: #9333ea;
-      --primary-hover: #a855f7;
-      --primary-end: #7c3aed;
-      --primary-gold: #ffd21f;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --success: #22c55e;
-      --warning: #f59e0b;
-      --error: #ef4444;
+      --input-focus: #A855F7;
+      --primary: #A855F7;
+      --primary-hover: #C084FC;
+      --primary-end: #7C3AED;
+      --primary-deep: #4C1D95;
+      --grad-primary: linear-gradient(135deg, #A855F7 0%, #7C3AED 100%);
+      --grad-text: linear-gradient(135deg, #C084FC 0%, #A855F7 50%, #7C3AED 100%);
+      --text-main: #F5F3FF;
+      --text-muted: #9A94B3;
+      --text-dim: #64748B;
+      --success: #22C55E;
+      --warning: #F59E0B;
+      --error: #F87171;
       --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
@@ -57,6 +60,7 @@
       color: var(--text-main);
       font-family: var(--font);
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
     }
 
@@ -67,10 +71,23 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 84px 20px 36px;
+      min-height: 100dvh;
+      padding: 92px 20px 40px;
     }
 
-    /* Ambient animated lighting */
+    /* ── Noise overlay texture (matching home page) ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── Ambient Floating Orbs ── */
     .ambient-bg {
       position: fixed;
       inset: 0;
@@ -82,55 +99,101 @@
     .ambient-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.45;
-      animation: orbFloat 16s ease-in-out infinite alternate;
+      filter: blur(110px);
+      pointer-events: none;
+      will-change: transform, opacity;
     }
 
     .orb-1 {
-      width: 500px;
-      height: 500px;
-      top: -120px;
+      width: 650px;
+      height: 650px;
+      top: -160px;
       left: 50%;
       transform: translateX(-50%);
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.28) 0%, rgba(124, 58, 237, 0.12) 50%, transparent 70%);
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.28) 0%, rgba(124, 58, 237, 0.12) 48%, transparent 72%);
+      animation: orbFloat1 18s ease-in-out infinite alternate;
     }
 
     .orb-2 {
-      width: 400px;
-      height: 400px;
-      bottom: -80px;
-      right: 10%;
-      background: radial-gradient(circle, rgba(107, 17, 255, 0.22) 0%, transparent 70%);
-      animation-duration: 20s;
-      animation-delay: -5s;
+      width: 520px;
+      height: 520px;
+      bottom: -120px;
+      right: 5%;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.24) 0%, rgba(76, 29, 149, 0.14) 50%, transparent 72%);
+      animation: orbFloat2 22s ease-in-out infinite alternate;
     }
 
-    @keyframes orbFloat {
+    .orb-3 {
+      width: 440px;
+      height: 440px;
+      top: 30%;
+      left: -80px;
+      background: radial-gradient(circle, rgba(147, 51, 234, 0.18) 0%, transparent 70%);
+      animation: orbFloat3 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbFloat1 {
+      0%   { transform: translate(-50%, 0) scale(1); }
+      50%  { transform: translate(calc(-50% + 30px), 25px) scale(1.08); }
+      100% { transform: translate(calc(-50% - 25px), -15px) scale(0.95); }
+    }
+
+    @keyframes orbFloat2 {
       0%   { transform: translate(0, 0) scale(1); }
-      50%  { transform: translate(25px, 15px) scale(1.05); }
-      100% { transform: translate(-20px, -10px) scale(0.95); }
+      50%  { transform: translate(-30px, -20px) scale(1.06); }
+      100% { transform: translate(20px, 15px) scale(0.94); }
     }
 
-    /* ── Top Header ── */
+    @keyframes orbFloat3 {
+      0%   { transform: translate(0, 0) scale(0.95); }
+      50%  { transform: translate(25px, -30px) scale(1.05); }
+      100% { transform: translate(-15px, 20px) scale(1); }
+    }
+
+    /* ── Ambient Subtle Grid ── */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(168, 85, 247, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168, 85, 247, 0.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, black 15%, transparent 85%);
+      -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, black 15%, transparent 85%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Interactive Particle Starfield Canvas ── */
+    .ambient-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Top Header (Exact Match to Homepage Navbar) ── */
     .top-header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 64px;
+      height: 68px;
       z-index: 100;
-      background: rgba(7, 5, 13, 0.75);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(7, 5, 13, 0.8);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
       display: flex;
       align-items: center;
+      transition: background-color 0.3s ease;
     }
 
     .header-container {
       width: 100%;
-      max-width: 1140px;
+      max-width: 1180px;
       margin: 0 auto;
       padding: 0 24px;
       display: flex;
@@ -141,55 +204,52 @@
     .brand-link {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 0.75rem;
       text-decoration: none;
       outline: none;
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .brand-link:hover {
-      opacity: 0.92;
-      transform: translateY(-1px);
+      transform: scale(1.02);
     }
 
-    .brand-logo-frame {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: rgba(168, 85, 247, 0.12);
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 14px rgba(168, 85, 247, 0.55));
+      transition: filter 0.25s ease, transform 0.25s ease;
     }
 
-    .brand-logo-svg {
-      width: 24px;
-      height: 24px;
+    .brand-link:hover .brand-logo {
+      filter: drop-shadow(0 0 22px rgba(168, 85, 247, 0.95));
+      transform: scale(1.06);
     }
 
-    .brand-text {
-      font-size: 1.15rem;
+    .brand-name {
+      font-size: 1.25rem;
       font-weight: 800;
       letter-spacing: -0.02em;
-      color: #ffffff;
-      display: flex;
+      color: var(--text-main);
+      display: inline-flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
     }
 
-    .brand-text em {
-      font-style: italic;
-      color: var(--primary-gold);
-      text-shadow: 0 0 12px rgba(255, 210, 31, 0.35);
+    .brand-name em {
+      font-style: normal;
+      background: var(--grad-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .home-btn {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 7px 15px;
+      gap: 8px;
+      padding: 8px 16px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -197,7 +257,8 @@
       font-size: 13px;
       font-weight: 500;
       text-decoration: none;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(10px);
     }
 
     .home-btn:hover {
@@ -205,6 +266,7 @@
       border-color: rgba(168, 85, 247, 0.35);
       color: #ffffff;
       transform: translateY(-1px);
+      box-shadow: 0 4px 18px rgba(168, 85, 247, 0.25);
     }
 
     .home-btn svg {
@@ -214,7 +276,7 @@
     }
 
     .home-btn:hover svg {
-      transform: translateX(-2px);
+      transform: translateX(-3px);
     }
 
     /* ── Floating Toast ── */
@@ -223,26 +285,26 @@
       top: -100px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(20, 16, 36, 0.95);
+      background: rgba(20, 15, 36, 0.95);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 10px 20px;
+      padding: 10px 22px;
       border-radius: 999px;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.2);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 24px rgba(168, 85, 247, 0.25);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
       font-size: 13.5px;
       font-weight: 600;
       z-index: 1000;
       opacity: 0;
       pointer-events: none;
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
       transition: top 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
       max-width: 90vw;
     }
 
     #noa-toast.visible {
-      top: 80px;
+      top: 84px;
       opacity: 1;
       pointer-events: auto;
     }
@@ -262,37 +324,100 @@
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 440px;
+      max-width: 480px;
+      animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .auth-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-top: 1px solid var(--card-border-top);
-      border-radius: 24px;
-      padding: 38px 30px;
-      text-align: center;
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      box-shadow: 
-        0 24px 60px -12px rgba(0, 0, 0, 0.75),
-        0 0 32px -4px rgba(168, 85, 247, 0.15);
-      position: relative;
-      animation: cardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes cardEnter {
+    @keyframes cardEntrance {
       0% {
         opacity: 0;
-        transform: scale(0.97) translateY(16px);
+        transform: translateY(28px) scale(0.97);
+        filter: blur(6px);
       }
       100% {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: translateY(0) scale(1);
+        filter: blur(0);
       }
     }
 
-    /* ── Hero Status Icon ── */
+    .auth-card {
+      position: relative;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-top: 1px solid var(--card-border-top);
+      border-radius: 26px;
+      padding: 42px 34px 38px;
+      text-align: center;
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      box-shadow: 
+        0 28px 75px -15px rgba(0, 0, 0, 0.85),
+        0 0 45px -10px rgba(168, 85, 247, 0.22),
+        inset 0 1px 1px rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Radiant card top shine line */
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 12%;
+      right: 12%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(216, 180, 254, 0.85) 50%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* ── Card Hero Logo: Official 3D Ribbon Logo Mark ── */
+    .card-hero-logo {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 22px auto;
+      width: 64px;
+      height: 64px;
+    }
+
+    .card-logo-glow {
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.55) 0%, rgba(124, 58, 237, 0.2) 55%, transparent 75%);
+      filter: blur(16px);
+      animation: logoGlowPulse 3.5s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .card-logo-img {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 18px rgba(168, 85, 247, 0.85));
+      animation: logoFloat 4s ease-in-out infinite alternate;
+      transition: transform 0.3s ease;
+    }
+
+    .card-hero-logo:hover .card-logo-img {
+      transform: scale(1.1) rotate(2deg);
+    }
+
+    @keyframes logoFloat {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-6px); }
+    }
+
+    @keyframes logoGlowPulse {
+      0%   { opacity: 0.5; transform: scale(0.9); }
+      100% { opacity: 0.95; transform: scale(1.15); }
+    }
+
+    /* ── Hero Status Halo ── */
     .icon-halo {
       width: 64px;
       height: 64px;
@@ -307,96 +432,108 @@
     }
 
     .icon-halo svg {
-      width: 28px;
-      height: 28px;
-      color: var(--primary-gold);
-    }
-
-    .icon-halo.error-halo {
-      background: rgba(239, 68, 68, 0.12);
-      border-color: rgba(239, 68, 68, 0.35);
-      box-shadow: 0 0 24px rgba(239, 68, 68, 0.25);
-    }
-    .icon-halo.error-halo svg {
-      color: #f87171;
+      width: 30px;
+      height: 30px;
+      color: #d8b4fe;
     }
 
     .icon-halo.success-halo {
       background: rgba(34, 197, 94, 0.12);
-      border-color: rgba(34, 197, 94, 0.35);
-      box-shadow: 0 0 24px rgba(34, 197, 94, 0.25);
+      border-color: rgba(34, 197, 94, 0.38);
+      box-shadow: 0 0 26px rgba(34, 197, 94, 0.3);
+      animation: iconPulse 3s ease-in-out infinite alternate;
     }
+
     .icon-halo.success-halo svg {
       color: #4ade80;
+    }
+
+    .icon-halo.error-halo {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.38);
+      box-shadow: 0 0 26px rgba(239, 68, 68, 0.3);
+    }
+
+    .icon-halo.error-halo svg {
+      color: #f87171;
+    }
+
+    @keyframes iconPulse {
+      0% { transform: scale(1); box-shadow: 0 0 20px rgba(34, 197, 94, 0.25); }
+      100% { transform: scale(1.05); box-shadow: 0 0 32px rgba(34, 197, 94, 0.45); }
     }
 
     /* ── Pill Badges ── */
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      font-size: 11px;
+      gap: 7px;
+      padding: 5px 14px;
+      font-size: 11.5px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       border-radius: 999px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       background: rgba(168, 85, 247, 0.12);
       border: 1px solid rgba(168, 85, 247, 0.3);
       color: #d8b4fe;
     }
 
     .status-badge.verifying {
-      background: rgba(255, 210, 31, 0.12);
-      border-color: rgba(255, 210, 31, 0.35);
-      color: var(--primary-gold);
-      animation: pulseBadge 1.5s infinite;
-    }
-
-    .status-badge.error {
-      background: rgba(239, 68, 68, 0.12);
-      border-color: rgba(239, 68, 68, 0.35);
-      color: #f87171;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #d8b4fe;
+      animation: pulseBadge 1.8s infinite ease-in-out;
+      box-shadow: 0 0 18px rgba(168, 85, 247, 0.2);
     }
 
     .status-badge.success {
-      background: rgba(34, 197, 94, 0.12);
-      border-color: rgba(34, 197, 94, 0.35);
+      background: rgba(34, 197, 94, 0.14);
+      border: 1px solid rgba(34, 197, 94, 0.38);
       color: #4ade80;
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.2);
+    }
+
+    .status-badge.error {
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.38);
+      color: #f87171;
+      box-shadow: 0 0 18px rgba(239, 68, 68, 0.2);
     }
 
     @keyframes pulseBadge {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.65; }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.75; transform: scale(0.98); }
     }
 
     h1 {
-      font-size: 23px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
       line-height: 1.25;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       color: #ffffff;
     }
 
     .subtitle {
       font-size: 14px;
-      line-height: 1.55;
+      line-height: 1.6;
       color: var(--text-muted);
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
 
     /* ── Form Inputs ── */
     .form-group {
+      margin-bottom: 20px;
       text-align: left;
-      margin-bottom: 18px;
     }
 
     .field-label {
       display: block;
-      font-size: 13px;
-      font-weight: 500;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
       color: #cbd5e1;
       margin-bottom: 8px;
     }
@@ -407,191 +544,216 @@
       align-items: center;
       background: var(--input-bg);
       border: 1px solid var(--input-border);
-      border-radius: 12px;
-      transition: all 0.2s ease;
+      border-radius: 14px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .input-wrapper:hover {
+      border-color: rgba(168, 85, 247, 0.35);
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .input-wrapper:focus-within {
       border-color: var(--input-focus);
-      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(168, 85, 247, 0.05);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.22), 0 0 20px rgba(168, 85, 247, 0.18);
     }
 
     .input-wrapper.has-error {
-      border-color: var(--error) !important;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+      border-color: var(--error);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
     }
 
     .input-wrapper.is-valid {
-      border-color: var(--success) !important;
+      border-color: var(--success);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
     }
 
     .input-icon {
-      position: absolute;
-      left: 14px;
       width: 17px;
       height: 17px;
+      margin-left: 14px;
       color: var(--text-dim);
-      pointer-events: none;
+      flex-shrink: 0;
       transition: color 0.2s ease;
     }
 
     .input-wrapper:focus-within .input-icon {
-      color: var(--primary-hover);
+      color: var(--primary);
     }
 
     .input-wrapper input {
       width: 100%;
+      height: 48px;
       background: transparent;
       border: none;
       outline: none;
+      padding: 0 12px;
       color: #ffffff;
       font-family: inherit;
-      font-size: 14.5px;
-      padding: 13px 40px 13px 42px;
+      font-size: 14px;
+      font-weight: 500;
     }
 
     .input-wrapper input::placeholder {
-      color: #64748b;
+      color: rgba(148, 163, 184, 0.55);
     }
 
     .eye-toggle {
-      position: absolute;
-      right: 12px;
       background: none;
       border: none;
+      padding: 10px 14px;
       color: var(--text-dim);
       cursor: pointer;
-      padding: 4px;
+      transition: color 0.2s ease, transform 0.15s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: color 0.2s ease;
     }
 
     .eye-toggle:hover {
-      color: var(--primary-hover);
+      color: #ffffff;
+      transform: scale(1.1);
     }
 
-    /* ── Live Strength Meter ── */
+    /* ── Password Strength UI ── */
     .strength-wrapper {
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .strength-bars {
-      display: flex;
-      gap: 5px;
-      margin-bottom: 5px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 6px;
     }
 
     .strength-bar {
-      height: 3.5px;
-      flex: 1;
+      height: 4px;
+      border-radius: 999px;
       background: rgba(255, 255, 255, 0.08);
-      border-radius: 99px;
-      transition: background 0.3s ease;
+      transition: background-color 0.3s ease;
     }
 
     .strength-status {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       font-size: 11.5px;
       color: var(--text-dim);
     }
 
     .strength-label {
       font-weight: 700;
+      color: var(--text-muted);
     }
 
-    /* ── Requirements Checklist ── */
+    /* ── Guidance / Requirements Card ── */
     .guidance-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
-      padding: 10px 14px;
-      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-top: 14px;
       text-align: left;
     }
 
     .guidance-title {
-      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      color: var(--text-dim);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      color: #cbd5e1;
     }
 
     .guidance-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
+      gap: 6px;
+      margin-top: 8px;
     }
 
     .chip {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
       background: rgba(255, 255, 255, 0.04);
       color: var(--text-dim);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
       transition: all 0.2s ease;
     }
 
     .chip.valid {
       background: rgba(34, 197, 94, 0.12);
       color: #4ade80;
-      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-color: rgba(34, 197, 94, 0.35);
     }
 
     .match-feedback {
-      font-size: 12px;
       margin-top: 6px;
+      font-size: 12px;
       font-weight: 600;
-      display: none;
+      min-height: 16px;
+      text-align: left;
     }
 
     .match-feedback.success {
-      display: block;
       color: #4ade80;
     }
 
     .match-feedback.error {
-      display: block;
       color: #f87171;
     }
 
-    /* ── Buttons ── */
+    /* ── Action Buttons ── */
     .btn-primary {
+      position: relative;
+      overflow: hidden;
       width: 100%;
-      height: 48px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-end) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 12px;
+      height: 50px;
+      background: var(--grad-primary);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 14px;
       color: #ffffff;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       font-family: inherit;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35);
-      transition: all 0.2s ease;
+      gap: 9px;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.45);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       text-decoration: none;
-      margin-top: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      transform: rotate(30deg);
+      transition: left 0.6s ease;
+      pointer-events: none;
+    }
+
+    .btn-primary:hover::after {
+      left: 120%;
     }
 
     .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(168, 85, 247, 0.65);
+      background: linear-gradient(135deg, #b064f9 0%, #8542f0 100%);
     }
 
     .btn-primary:active {
@@ -606,21 +768,22 @@
     }
 
     .large-spinner {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border: 3px solid rgba(168, 85, 247, 0.2);
       border-radius: 50%;
       border-top-color: var(--primary-hover);
       animation: spin 0.8s linear infinite;
-      margin: 20px auto;
+      margin: 22px auto;
+      filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.5));
     }
 
     .mini-spinner {
-      width: 13px;
-      height: 13px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(216, 180, 254, 0.3);
       border-radius: 50%;
-      border-top-color: #ffffff;
+      border-top-color: #d8b4fe;
       animation: spin 0.8s linear infinite;
     }
 
@@ -629,37 +792,37 @@
     }
 
     .info-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 14px;
-      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px 18px;
       font-size: 13px;
       line-height: 1.55;
       color: var(--text-muted);
-      margin: 18px 0;
+      margin: 20px 0;
       text-align: left;
     }
 
     .redirect-note {
-      margin-top: 14px;
+      margin-top: 16px;
       font-size: 12.5px;
       color: var(--text-dim);
     }
 
     .countdown-highlight {
-      color: var(--primary-gold);
+      color: #d8b4fe;
       font-weight: 700;
     }
 
     .card-footer {
-      margin-top: 20px;
-      padding-top: 18px;
+      margin-top: 22px;
+      padding-top: 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       font-size: 13px;
       color: var(--text-dim);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .card-footer a {
@@ -669,24 +832,36 @@
     }
 
     .card-footer a:hover {
-      color: var(--primary-gold);
+      color: #ffffff;
     }
 
     .state-panel {
       display: block;
+      animation: panelFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .state-panel.hidden {
       display: none !important;
     }
 
+    @keyframes panelFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     @media (max-width: 480px) {
       body {
-        padding: 76px 16px 28px;
+        padding: 82px 16px 30px;
       }
       .auth-card {
-        padding: 32px 20px;
-        border-radius: 20px;
+        padding: 34px 22px;
+        border-radius: 22px;
       }
       h1 {
         font-size: 21px;
@@ -696,30 +871,25 @@
 </head>
 <body>
 
-  <!-- Ambient Lighting -->
+  <!-- Ambient Animated Lighting -->
   <div class="ambient-bg" aria-hidden="true">
     <div class="ambient-orb orb-1"></div>
     <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
   </div>
 
-  <!-- Top Header -->
+  <!-- Futuristic Grid Overlay -->
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Interactive Starfield Canvas -->
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- Top Header (Exact Match to Homepage Brand Navbar) -->
   <header class="top-header" role="banner">
     <div class="header-container">
       <a href="/" class="brand-link" aria-label="Noa Ai Homepage">
-        <div class="brand-logo-frame">
-          <!-- Official Noa Ai Vector Emblem -->
-          <svg class="brand-logo-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <defs>
-              <linearGradient id="headerHexGradReset" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#A855F7"/>
-                <stop offset="100%" stop-color="#6B11FF"/>
-              </linearGradient>
-            </defs>
-            <polygon points="60,8 109,34 109,86 60,112 11,86 11,34" fill="url(#headerHexGradReset)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-            <text x="60" y="78" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="52" font-weight="800" fill="#FFD21F" letter-spacing="-1">N</text>
-          </svg>
-        </div>
-        <span class="brand-text">Noa <em>Ai</em></span>
+        <img src="/assets/logo.png" alt="Noa Ai logo" class="brand-logo" width="34" height="34" />
+        <span class="brand-name">Noa <em>Ai</em></span>
       </a>
 
       <a href="/" class="home-btn" aria-label="Return to Main Website">
@@ -742,10 +912,16 @@
   <main class="card-wrapper">
     <div class="auth-card" id="main-card">
 
+      <!-- Official 3D Ribbon Logo Mark with Ambient Glow -->
+      <div class="card-hero-logo" aria-hidden="true">
+        <div class="card-logo-glow"></div>
+        <img src="/assets/logo.png" alt="Noa Ai Logo" class="card-logo-img" width="58" height="58" />
+      </div>
+
       <!-- ── STATE 1: LOADING LINK ── -->
       <div id="loading-panel" class="state-panel">
         <div class="status-badge verifying">
-          <span class="mini-spinner" style="border-top-color:var(--primary-gold); width:11px; height:11px;"></span>
+          <span class="mini-spinner"></span>
           <span>Verifying Recovery Link</span>
         </div>
         <h1>Checking Security Link...</h1>
@@ -934,6 +1110,119 @@
     </div>
   </main>
 
+  <!-- Lightweight Ambient Particle Constellation System -->
+  <script>
+    (function initCanvasParticles() {
+      const canvas = document.getElementById('ambient-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      let w, h;
+      let particles = [];
+      const particleCount = 50;
+      let mouse = { x: null, y: null };
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      }, { passive: true });
+
+      window.addEventListener('mouseleave', () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * (w || 800),
+          y: Math.random() * (h || 600),
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          radius: Math.random() * 1.8 + 0.6,
+          baseAlpha: Math.random() * 0.55 + 0.2,
+          alpha: 0.3,
+          pulseSpeed: Math.random() * 0.02 + 0.006,
+          color: Math.random() > 0.2 ? '#A855F7' : '#C084FC'
+        });
+      }
+
+      let isVisible = true;
+      document.addEventListener('visibilitychange', () => {
+        isVisible = !document.hidden;
+      });
+
+      function animate() {
+        if (!isVisible) {
+          requestAnimationFrame(animate);
+          return;
+        }
+        ctx.clearRect(0, 0, w, h);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < -10) p.x = w + 10;
+          if (p.x > w + 10) p.x = -10;
+          if (p.y < -10) p.y = h + 10;
+          if (p.y > h + 10) p.y = -10;
+
+          p.alpha = p.baseAlpha + Math.sin(Date.now() * p.pulseSpeed * 0.003) * 0.18;
+          p.alpha = Math.max(0.1, Math.min(0.85, p.alpha));
+
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = p.x - mouse.x;
+            const dy = p.y - mouse.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 110) {
+              const force = (110 - dist) / 110;
+              p.x += (dx / dist) * force * 1.2;
+              p.y += (dy / dist) * force * 1.2;
+            }
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.alpha;
+          ctx.shadowColor = '#A855F7';
+          ctx.shadowBlur = 6;
+          ctx.fill();
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+            if (dist < 85) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = '#A855F7';
+              ctx.globalAlpha = (1 - dist / 85) * 0.1;
+              ctx.shadowBlur = 0;
+              ctx.lineWidth = 0.7;
+              ctx.stroke();
+            }
+          }
+        }
+
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    })();
+  </script>
+
+  <!-- Core Reset Password & Auth Logic Script -->
   <script>
     (function () {
       'use strict';
