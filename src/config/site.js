@@ -4,7 +4,7 @@
  */
 export const SITE_NAME = 'Noa Ai';
 export const SITE_TAGLINE = 'New Way of Learning';
-export const SITE_URL  = 'https://noaai.vercel.app';
+export const SITE_URL  = 'https://noa-ai.antideploy.app';
 export const SITE_DESC =
   'Noa Ai is an Android app developed by Project Team 3 at Government Polytechnic Proddatur under the mentorship of T. Naga Jyothi. Transform any video lecture into smart notes, timestamped transcripts, and AI learning assistance.';
 

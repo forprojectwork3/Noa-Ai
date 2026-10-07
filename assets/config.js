@@ -22,7 +22,7 @@
 
     // App identity
     APP_NAME: "NOA AI",
-    SITE_URL: "https://noaai.vercel.app"
+    SITE_URL: "https://noa-ai.antideploy.app"
   };
 
   // Expose on window for browser scripts
