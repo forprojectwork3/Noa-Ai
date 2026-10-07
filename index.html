@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Noa Ai Team" />
+  <meta name="keywords" content="AI lecture notes, YouTube lecture summarizer, smart notes AI, study tool, transcript generator, flashcards AI, PDF export, Socratic AI tutor" />
+
+  <!-- ── SEO ── -->
+  <title>Noa Ai — Android Lecture Companion | Project Team 3, Govt Polytechnic Proddatur</title>
+  <meta name="description" content="Noa Ai is an Android application developed by Project Team 3 at Government Polytechnic Proddatur under faculty mentor T. Naga Jyothi. Download the APK to transform video lectures into structured notes, transcripts, and AI flashcards." />
+  <link rel="canonical" href="https://noaai.vercel.app/" />
+  <meta name="theme-color" content="#07050D" />
+
+  <!-- ── Open Graph ── -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://noaai.vercel.app/" />
+  <meta property="og:title"       content="Noa Ai — Android Lecture Companion | Project Team 3, Govt Polytechnic Proddatur" />
+  <meta property="og:description" content="Noa Ai is an Android application developed by Project Team 3 at Government Polytechnic Proddatur under faculty mentor T. Naga Jyothi. Download the APK to transform video lectures into structured notes, transcripts, and AI flashcards." />
+  <meta property="og:image"       content="https://noaai.vercel.app/assets/logo.png" />
+
+  <!-- ── Twitter Card ── -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Noa Ai — Android Lecture Companion | Project Team 3, Govt Polytechnic Proddatur" />
+  <meta name="twitter:description" content="Noa Ai is an Android application developed by Project Team 3 at Government Polytechnic Proddatur under faculty mentor T. Naga Jyothi." />
+  <meta name="twitter:image"       content="https://noaai.vercel.app/assets/logo.png" />
+
+  <!-- ── Favicon ── -->
+  <link rel="icon" type="image/png" href="/assets/logo.png" />
+  <link rel="apple-touch-icon" href="/assets/logo.png" />
+  <meta name="msapplication-TileColor" content="#07050D" />
+
+  <!-- ── Font preconnect + preload ── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" media="print" onload="this.media='all'" />
+
+  <!-- ── Safety-net: redirect old Supabase email links BEFORE any JS loads ──
+       Any URL that contains auth tokens or Supabase callback params is
+       immediately redirected to /verify or /reset (preserving search + hash).
+       This tiny inline script has NO dependencies and runs synchronously.
+  ── -->
+  <script>
+    (function () {
+      var s = location.search;
+      var h = location.hash;
+      var combined = s + h;
+      if (
+        combined.indexOf('access_token')     > -1 ||
+        combined.indexOf('refresh_token')    > -1 ||
+        combined.indexOf('code=')            > -1 ||
+        combined.indexOf('token_hash')       > -1 ||
+        combined.indexOf('type=signup')      > -1 ||
+        combined.indexOf('type=recovery')    > -1 ||
+        combined.indexOf('type=email_change')> -1 ||
+        combined.indexOf('error_description')> -1
+      ) {
+        var dest = (combined.indexOf('type=recovery') > -1) ? '/reset' : '/email-verify';
+        location.replace(dest + s + h);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── Preloader ── -->
+  <div id="preloader" role="status" aria-label="Loading Noa Ai">
+    <div class="preloader__logo">
+      <div class="preloader__ring"></div>
+      <img src="/assets/logo-mark-violet-transparent.png" alt="Noa Ai logo" width="80" height="80" style="border-radius: 18px; object-fit: contain; box-shadow: 0 0 32px rgba(168, 85, 247, 0.55);" />
+    </div>
+    <div class="preloader__wordmark">Noa <em>Ai</em></div>
+    <div class="preloader__subwordmark">New Way Of Learning</div>
+    <div class="preloader__bar"><div class="preloader__fill"></div></div>
+  </div>
+
+  <!-- ── Custom cursor (desktop only) ── -->
+  <div id="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
+
+  <!-- ── Page wrapper ── -->
+  <div id="app">
+
+    <!-- Navbar injected by JS -->
+    <header id="navbar-root"></header>
+
+    <main id="main-content">
+      <section id="home" aria-label="Hero"></section>
+
+      <section id="marquee" aria-label="Feature highlights marquee"></section>
+
+      <section id="features" aria-label="Features"></section>
+
+      <section id="how-it-works" aria-label="How Noa Ai works"></section>
+
+      <section id="download" aria-label="Download Noa Ai APK and FAQ"></section>
+
+      <section id="docs" aria-label="Project Documentation and Architecture"></section>
+
+      <section id="team" aria-label="Development team"></section>
+
+      <section id="mentor" aria-label="Project mentor"></section>
+    </main>
+
+    <footer id="footer-root"></footer>
+
+  </div>
+
+  <!-- ── Structured Data (JSON-LD) ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "Noa Ai",
+        "url": "https://noaai.vercel.app/",
+        "description": "Noa Ai turns YouTube lectures and videos into smart notes, summaries, transcripts, and PDFs.",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://noaai.vercel.app/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Noa Ai",
+        "applicationCategory": "EducationApplication",
+        "operatingSystem": "Web",
+        "url": "https://noaai.vercel.app/",
+        "description": "AI-powered lecture intelligence platform. Paste any YouTube lecture link and instantly receive smart notes, timestamped transcripts, auto-generated flashcards, and a Socratic AI tutor.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "creator": {
+          "@type": "Organization",
+          "name": "Noa Ai",
+          "url": "https://noaai.vercel.app/"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ── Vite entry ── -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

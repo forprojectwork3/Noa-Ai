@@ -1,0 +1,210 @@
+/* ============================================================
+   footer.css — Refined dark footer with credits and back-to-top
+   ============================================================ */
+
+.footer {
+  position: relative;
+  background-color: var(--clr-surface);
+  border-top: 1px solid var(--clr-border);
+  padding-top: clamp(4rem, 8vw, 6rem);
+  padding-bottom: 3rem;
+  overflow: hidden;
+}
+
+/* Subtle top glow */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 240px;
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.15), transparent 70%);
+  pointer-events: none;
+}
+
+.footer__container {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+/* ── Top row ── */
+.footer__top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+@media (min-width: 860px) {
+  .footer__top {
+    grid-template-columns: 1.5fr 2fr;
+    gap: 4rem;
+  }
+}
+
+.footer__brand-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 400px;
+}
+
+.footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: var(--fw-extrabold);
+  font-size: 1.35rem;
+  color: var(--clr-text);
+  text-decoration: none;
+}
+
+.footer__logo {
+  width: 36px;
+  height: 36px;
+  filter: drop-shadow(0 0 16px rgba(168, 85, 247, 0.6));
+}
+
+.footer__brand-name em {
+  font-style: normal;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer__tagline {
+  color: var(--clr-text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+
+.footer__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(168, 85, 247, 0.08);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-xs);
+  color: var(--clr-text-muted);
+  width: fit-content;
+}
+
+.footer__badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--clr-success);
+  box-shadow: 0 0 8px var(--clr-success);
+}
+
+/* ── Links grid ── */
+.footer__links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 2rem;
+}
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer__heading {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--clr-text);
+}
+
+.footer__links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer__link {
+  font-size: var(--fs-sm);
+  color: var(--clr-text-muted);
+  text-decoration: none;
+  transition: color var(--dur-fast) ease, transform var(--dur-fast) ease;
+  display: inline-block;
+  width: fit-content;
+}
+
+.footer__link:hover {
+  color: var(--clr-text);
+  transform: translateX(3px);
+}
+
+/* ── Bottom row ── */
+.footer__bottom {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (min-width: 680px) {
+  .footer__bottom {
+    flex-direction: row;
+  }
+}
+
+.footer__credits {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: var(--fs-xs);
+  color: var(--clr-text-dim);
+  text-align: center;
+}
+
+@media (min-width: 680px) {
+  .footer__credits {
+    text-align: left;
+  }
+}
+
+.footer__credits strong {
+  color: var(--clr-text-muted);
+}
+
+.footer__back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--clr-border);
+  color: var(--clr-text-muted);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  transition: all var(--dur-fast) ease;
+}
+
+.footer__back-to-top:hover {
+  color: var(--clr-text);
+  background: rgba(168, 85, 247, 0.12);
+  border-color: rgba(168, 85, 247, 0.35);
+  transform: translateY(-2px);
+}
+
+.footer__back-to-top svg {
+  transition: transform var(--dur-fast) ease;
+}
+
+.footer__back-to-top:hover svg {
+  transform: translateY(-2px);
+}

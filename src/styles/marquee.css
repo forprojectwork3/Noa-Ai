@@ -1,0 +1,126 @@
+/* ============================================================
+   marquee.css — Infinite dynamic tickers with gradient edge masks
+   ============================================================ */
+
+.marquee-section {
+  position: relative;
+  overflow: hidden;
+  padding: 3rem 0;
+  background: rgba(7, 5, 13, 0.95);
+  border-top: 1px solid var(--clr-border);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+/* Subtle background glow streak */
+.marquee-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 100px;
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Container with horizontal fade masks ── */
+.marquee__container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.marquee__row {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+}
+
+.marquee__track {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-shrink: 0;
+  min-width: 100%;
+  animation: marquee-forward 38s linear infinite;
+  will-change: transform;
+}
+
+.marquee__track--reverse {
+  animation: marquee-reverse 42s linear infinite;
+}
+
+.marquee__row:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-forward {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* ── Marquee Items ── */
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--clr-text);
+  backdrop-filter: blur(8px);
+  transition:
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    transform var(--dur-fast) ease;
+}
+
+.marquee__item:hover {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.4);
+  transform: translateY(-2px);
+}
+
+.marquee__item--highlight {
+  background: rgba(168, 85, 247, 0.08);
+  border-color: rgba(168, 85, 247, 0.25);
+  color: #F5F3FF;
+}
+
+.marquee__icon {
+  width: 18px;
+  height: 18px;
+  color: var(--clr-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marquee__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--clr-gold);
+  box-shadow: 0 0 6px var(--clr-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+    transform: none;
+  }
+}

@@ -1,0 +1,347 @@
+/* ============================================================
+   howItWorks.css — 3-Step Interactive Architecture & Workflow
+   ============================================================ */
+
+.how-it-works-section {
+  position: relative;
+  padding: var(--sp-section) 0;
+  background: rgba(10, 8, 18, 0.5);
+  overflow: hidden;
+  border-top: 1px solid var(--clr-border);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.how-it-works-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -10%;
+  transform: translateY(-50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+.how__header {
+  text-align: center;
+  max-width: 740px;
+  margin: 0 auto 4.5rem;
+}
+
+.how__category {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--clr-primary);
+  margin-bottom: 1rem;
+}
+
+.how__title {
+  font-size: var(--fs-3xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--clr-text);
+  margin-bottom: 1.25rem;
+}
+
+.how__subtitle {
+  font-size: var(--fs-md);
+  color: var(--clr-text-muted);
+  line-height: 1.6;
+}
+
+/* ── Steps Grid ── */
+.how__steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .how__steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+}
+
+/* ── Step Card ── */
+.step-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(14, 11, 23, 0.75);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition:
+    transform var(--dur-base) var(--ease-out-expo),
+    border-color var(--dur-base) ease,
+    box-shadow var(--dur-base) ease;
+}
+
+.step-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(168, 85, 247, 0.12);
+}
+
+.step-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.step-card__num {
+  font-size: 2.25rem;
+  font-weight: 800;
+  font-family: inherit;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.step-card__tag {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  color: #D8B4FE;
+}
+
+.step-card__title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--clr-text);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.step-card__desc {
+  font-size: var(--fs-sm);
+  color: var(--clr-text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* ── Interactive Step Mockups ── */
+
+/* Step 1: Input Mockup */
+.mockup-input {
+  background: rgba(7, 5, 13, 0.7);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.mockup-dropzone {
+  border: 1.5px dashed rgba(168, 85, 247, 0.3);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all var(--dur-fast) ease;
+}
+
+.mockup-dropzone:hover,
+.mockup-dropzone.is-active {
+  background: rgba(168, 85, 247, 0.08);
+  border-color: var(--clr-primary);
+}
+
+.mockup-dropzone-icon {
+  color: var(--clr-primary);
+}
+
+.mockup-dropzone-text {
+  font-size: var(--fs-xs);
+  color: var(--clr-text);
+  font-weight: var(--fw-semibold);
+}
+
+.mockup-dropzone-sub {
+  font-size: 0.7rem;
+  color: var(--clr-text-dim);
+}
+
+.mockup-link-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--clr-border);
+  font-size: var(--fs-xs);
+  color: var(--clr-text-muted);
+}
+
+.mockup-link-btn {
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #D8B4FE;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+}
+
+/* Step 2: Synthesis Pipeline Mockup */
+.mockup-pipeline {
+  background: rgba(7, 5, 13, 0.7);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.pipeline-node {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  font-size: var(--fs-xs);
+  transition: all var(--dur-fast) ease;
+}
+
+.pipeline-node.is-completed {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.25);
+  color: var(--clr-text);
+}
+
+.pipeline-node.is-processing {
+  background: rgba(168, 85, 247, 0.12);
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #F5F3FF;
+}
+
+.pipeline-status-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.pipeline-node.is-completed .pipeline-status-icon {
+  background: var(--clr-success);
+  color: #000000;
+}
+
+.pipeline-node.is-processing .pipeline-status-icon {
+  background: var(--clr-primary);
+  color: #FFFFFF;
+  animation: pulse-node 1.5s infinite;
+}
+
+@keyframes pulse-node {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.6); }
+  50% { box-shadow: 0 0 0 6px rgba(168, 85, 247, 0); }
+}
+
+/* Step 3: Interactive Mastery Mockup */
+.mockup-mastery {
+  background: rgba(7, 5, 13, 0.7);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.mastery-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.mastery-chip {
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--clr-border);
+  font-size: 0.7rem;
+  color: var(--clr-text-muted);
+  cursor: pointer;
+  transition: all var(--dur-fast) ease;
+}
+
+.mastery-chip:hover,
+.mastery-chip.is-active {
+  background: rgba(168, 85, 247, 0.18);
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #FFFFFF;
+}
+
+.mastery-bubble {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  font-size: var(--fs-xs);
+  color: var(--clr-text);
+  line-height: 1.5;
+  min-height: 52px;
+}
+
+.mastery-export-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mastery-pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  background: var(--grad-primary);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: var(--fw-semibold);
+  cursor: pointer;
+  border: none;
+  transition: transform var(--dur-fast) ease;
+}
+
+.mastery-pdf-btn:hover {
+  transform: translateY(-1px);
+}

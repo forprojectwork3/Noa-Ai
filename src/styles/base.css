@@ -1,0 +1,216 @@
+/* ============================================================
+   base.css — Global reset, body, typography, utilities
+   Imports tokens.css (must be first import in main.js)
+   ============================================================ */
+@import './tokens.css';
+
+/* ── Google Font loaded non-blocking via <link> in index.html ── */
+
+
+/* ── Box model reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Document ── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--clr-text);
+  background-color: var(--clr-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  /* Lenis smooth scroll */
+  overscroll-behavior: none;
+}
+
+/* Lenis root override */
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ── Images & Media ── */
+img, video, svg { display: block; max-width: 100%; }
+img { height: auto; }
+
+/* ── Links ── */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Buttons ── */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ── Focus visible ── */
+:focus-visible {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(168, 85, 247, 0.35);
+  color: var(--clr-text);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--clr-bg); }
+::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.4);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--clr-primary); }
+
+/* ── Noise texture overlay (applied to body via pseudo) ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-base);
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── Utility classes ── */
+.container {
+  width: 100%;
+  max-width: var(--max-w-content);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 5vw, 2rem);
+}
+
+.container--narrow {
+  max-width: var(--max-w-narrow);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 5vw, 2rem);
+}
+
+.section {
+  padding-block: var(--sp-section);
+}
+
+/* Glass card mixin-style utility */
+.glass {
+  background: var(--clr-glass);
+  border: 1px solid var(--clr-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-xl);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Button utilities ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--dur-base) var(--ease-out-expo);
+  white-space: nowrap;
+  user-select: none;
+  border: 1px solid transparent;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--primary {
+  background: var(--grad-primary);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-btn);
+}
+
+.btn--primary:hover {
+  box-shadow: var(--shadow-btn-hover);
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.btn--ghost {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--clr-text-muted);
+  border: 1px solid var(--clr-border);
+}
+
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--clr-text);
+  border-color: rgba(168, 85, 247, 0.35);
+}
+
+.btn--full {
+  width: 100%;
+}
+
+/* Visually hidden (a11y) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ── JS-ready reliability: content visible by default ──
+   Only hide reveal elements AFTER JS has confirmed it's running.
+   If ScrollTrigger fails or errors, everything stays visible.
+   ─────────────────────────────────────────────────────────── */
+html.js-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--dur-slower) var(--ease-out-expo),
+    transform var(--dur-slower) var(--ease-out-expo);
+}
+
+html.js-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js-ready [data-reveal],
+  html.js-ready [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
