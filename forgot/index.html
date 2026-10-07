@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Forgot Password — Noa Ai</title>
+  <meta name="description" content="Reset your Noa Ai password. Enter your registered email address to receive secure recovery instructions." />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/logo.png" />
+  <link rel="apple-touch-icon" href="/assets/logo.png" />
+  <meta name="theme-color" content="#07050D" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Config & Supabase Client -->
+  <script src="/assets/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg: #07050D;
+      --card-bg: rgba(14, 11, 23, 0.82);
+      --card-border: rgba(168, 85, 247, 0.22);
+      --card-border-glow: rgba(168, 85, 247, 0.45);
+      --input-bg: rgba(9, 6, 18, 0.85);
+      --input-border: rgba(255, 255, 255, 0.1);
+      --input-focus: #a855f7;
+      --primary: #a855f7;
+      --primary-end: #7c3aed;
+      --primary-gold: #ffd21f;
+      --text-main: #f5f3ff;
+      --text-muted: #9a94b3;
+      --text-dim: #64748b;
+      --success: #22c55e;
+      --success-glow: rgba(34, 197, 94, 0.25);
+      --error: #f87171;
+      --error-glow: rgba(248, 113, 113, 0.25);
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100%;
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Ambient animated background */
+    body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 96px 20px 40px;
+    }
+
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.55;
+      animation: orbFloat 14s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 550px;
+      height: 550px;
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(124, 58, 237, 0.15) 50%, transparent 75%);
+    }
+
+    .orb-2 {
+      width: 420px;
+      height: 420px;
+      bottom: -100px;
+      right: 5%;
+      background: radial-gradient(circle, rgba(107, 17, 255, 0.28) 0%, transparent 70%);
+      animation-duration: 18s;
+      animation-delay: -4s;
+    }
+
+    .orb-3 {
+      width: 360px;
+      height: 360px;
+      bottom: 10%;
+      left: 5%;
+      background: radial-gradient(circle, rgba(255, 210, 31, 0.12) 0%, transparent 70%);
+      animation-duration: 20s;
+      animation-delay: -8s;
+    }
+
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 80%);
+    }
+
+    @keyframes orbFloat {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(30px, 20px) scale(1.08); }
+      100% { transform: translate(-25px, -15px) scale(0.96); }
+    }
+
+    /* ── Sticky Top Header ── */
+    .top-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      z-index: 100;
+      background: rgba(7, 5, 13, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .header-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      group: focus;
+      outline: none;
+      transition: transform 0.25s ease;
+    }
+
+    .brand-link:hover {
+      transform: translateY(-1px);
+    }
+
+    .brand-logo-frame {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(124, 58, 237, 0.1) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    .brand-link:hover .brand-logo-frame {
+      border-color: rgba(168, 85, 247, 0.6);
+      box-shadow: 0 0 22px rgba(168, 85, 247, 0.45);
+      transform: rotate(-3deg) scale(1.04);
+    }
+
+    .brand-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .brand-text em {
+      font-style: italic;
+      color: var(--primary-gold);
+      text-shadow: 0 0 14px rgba(255, 210, 31, 0.4);
+    }
+
+    .brand-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.14);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      margin-left: 6px;
+    }
+
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .home-btn:hover {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: rgba(168, 85, 247, 0.45);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.25);
+    }
+
+    .home-btn svg {
+      width: 15px;
+      height: 15px;
+      transition: transform 0.2s ease;
+    }
+
+    .home-btn:hover svg {
+      transform: translateX(-3px);
+    }
+
+    /* ── Floating Toast ── */
+    #noa-toast {
+      position: fixed;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20, 14, 38, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 12px 22px;
+      border-radius: 999px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 24px rgba(168, 85, 247, 0.25);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      backdrop-filter: blur(20px);
+      transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+      max-width: 90vw;
+    }
+
+    #noa-toast.visible {
+      top: 90px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #noa-toast.type-success {
+      border-color: rgba(34, 197, 94, 0.5);
+      color: #4ade80;
+    }
+
+    #noa-toast.type-error {
+      border-color: rgba(248, 113, 113, 0.5);
+      color: #f87171;
+    }
+
+    /* ── Main Card ── */
+    .card-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .auth-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 44px 34px;
+      text-align: center;
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      box-shadow: 
+        0 24px 60px -12px rgba(0, 0, 0, 0.8),
+        0 0 36px -4px rgba(168, 85, 247, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      animation: cardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), var(--primary-gold), transparent);
+    }
+
+    @keyframes cardEnter {
+      0% {
+        opacity: 0;
+        transform: scale(0.96) translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    /* ── Card Hero Icon ── */
+    .icon-halo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 22px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.22) 0%, rgba(124, 58, 237, 0.1) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 32px rgba(168, 85, 247, 0.35);
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .icon-halo svg {
+      width: 38px;
+      height: 38px;
+      color: var(--primary-gold);
+      filter: drop-shadow(0 0 10px rgba(255, 210, 31, 0.45));
+    }
+
+    .icon-halo.success-halo {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(16, 185, 129, 0.1) 100%);
+      border-color: rgba(34, 197, 94, 0.45);
+      box-shadow: 0 0 32px rgba(34, 197, 94, 0.35);
+    }
+
+    .icon-halo.success-halo svg {
+      color: #4ade80;
+      filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.45));
+    }
+
+    /* ── Pill Badge ── */
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.14);
+      border: 1px solid rgba(168, 85, 247, 0.32);
+      color: #d8b4fe;
+      margin-bottom: 14px;
+    }
+
+    .pill-badge.success {
+      background: rgba(34, 197, 94, 0.14);
+      border-color: rgba(34, 197, 94, 0.35);
+      color: #4ade80;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--primary-gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    /* ── Form Inputs ── */
+    .form-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 14px;
+      transition: all 0.25s ease;
+    }
+
+    .input-wrapper:focus-within {
+      border-color: var(--input-focus);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
+      background: rgba(13, 9, 26, 0.95);
+    }
+
+    .input-wrapper.has-error {
+      border-color: var(--error) !important;
+      box-shadow: 0 0 20px var(--error-glow) !important;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      width: 18px;
+      height: 18px;
+      color: var(--text-dim);
+      pointer-events: none;
+      transition: color 0.2s ease;
+    }
+
+    .input-wrapper:focus-within .input-icon {
+      color: var(--primary);
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 15px;
+      padding: 15px 16px 15px 46px;
+    }
+
+    .input-wrapper input::placeholder {
+      color: #64748b;
+    }
+
+    /* ── Submit Button ── */
+    .btn-submit {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-end) 100%);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 15.5px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-top: 6px;
+      text-decoration: none;
+    }
+
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: rotate(25deg);
+      transition: left 0.7s ease;
+    }
+
+    .btn-submit:hover::after {
+      left: 120%;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(168, 85, 247, 0.6);
+    }
+
+    .btn-submit:active {
+      transform: translateY(1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #ffffff;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── Info & Success Boxes ── */
+    .info-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      margin: 20px 0;
+      text-align: left;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .info-card svg {
+      width: 18px;
+      height: 18px;
+      color: var(--primary-gold);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .email-display-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      border-radius: 8px;
+      color: #f5f3ff;
+      font-weight: 700;
+      font-size: 14px;
+      margin: 8px 0 14px;
+      word-break: break-all;
+    }
+
+    .action-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── Card Footer & Links ── */
+    .card-footer {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 13px;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .card-footer a:hover {
+      color: var(--primary-gold);
+    }
+
+    .legal-notice {
+      margin-top: 24px;
+      font-size: 11.5px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .legal-notice svg {
+      width: 13px;
+      height: 13px;
+      color: var(--primary);
+    }
+
+    /* ── State Switches ── */
+    .state-panel {
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+
+    .state-panel.hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 84px 16px 28px;
+      }
+      .auth-card {
+        padding: 34px 22px;
+        border-radius: 22px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      .brand-badge {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Dynamic Background -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Top Fixed Brand Header -->
+  <header class="top-header" role="banner">
+    <div class="header-container">
+      <a href="/" class="brand-link" aria-label="Noa Ai Homepage">
+        <div class="brand-logo-frame">
+          <img src="/assets/logo.png" alt="Noa Ai Logo" class="brand-logo-img" width="28" height="28" />
+        </div>
+        <span class="brand-text">Noa <em>Ai</em></span>
+        <span class="brand-badge">Recovery</span>
+      </a>
+
+      <a href="/" class="home-btn" aria-label="Return to Main Website">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Home</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Floating Toast Notifications -->
+  <div id="noa-toast" role="alert" aria-live="assertive">
+    <span id="toast-icon">✨</span>
+    <span id="toast-msg">Notification message</span>
+  </div>
+
+  <!-- Main Card Container -->
+  <main class="card-wrapper">
+    <div class="auth-card" id="main-card">
+
+      <!-- ── STATE 1: FORGOT PASSWORD REQUEST FORM ── -->
+      <div id="form-panel" class="state-panel">
+        <div class="icon-halo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            <circle cx="12" cy="16" r="1.5"></circle>
+          </svg>
+        </div>
+
+        <div class="pill-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>Account Recovery</span>
+        </div>
+
+        <h1>Forgot Password?</h1>
+        <p class="subtitle">
+          Enter your registered email address and we'll send you a secure verification link to reset your account password.
+        </p>
+
+        <form id="forgot-form" novalidate>
+          <div class="form-group">
+            <label for="inp-email" class="field-label">Email Address</label>
+            <div class="input-wrapper" id="box-email">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+              <input
+                type="email"
+                id="inp-email"
+                placeholder="name@example.com"
+                autocomplete="email"
+                required
+                autofocus
+              />
+            </div>
+          </div>
+
+          <button type="submit" id="btn-submit" class="btn-submit">
+            <span id="btn-text">Send Reset Link</span>
+            <svg id="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+
+        <div class="card-footer">
+          <div>
+            Already have a reset link? 
+            <a href="/reset" style="color:var(--primary); font-weight:600;">Reset Password →</a>
+          </div>
+          <div>
+            Remember your credentials?
+            <a href="myapp://auth-callback" id="app-deep-link" style="color:var(--text-main); font-weight:600;">Open Noa Ai App</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── STATE 2: EMAIL SENT CONFIRMATION ── -->
+      <div id="success-panel" class="state-panel hidden">
+        <div class="icon-halo success-halo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h9"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+            <polyline points="16 19 19 22 23 18"></polyline>
+          </svg>
+        </div>
+
+        <div class="pill-badge success">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Instructions Sent</span>
+        </div>
+
+        <h1>Check Your Inbox</h1>
+        <p class="subtitle">
+          We've sent a password reset link to your email address:
+        </p>
+
+        <div class="email-display-badge" id="sent-email-display">user@example.com</div>
+
+        <div class="info-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span>
+            Click the link in the email to set a new password. If you don't receive it within a few minutes, please check your spam or junk folder.
+          </span>
+        </div>
+
+        <div class="action-group">
+          <a href="mailto:" id="btn-open-mail" class="btn-submit">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>Open Email App</span>
+          </a>
+
+          <button type="button" id="btn-resend" class="btn-secondary">
+            <span>Resend Reset Email</span>
+            <span id="resend-countdown" style="display:none; font-variant-numeric: tabular-nums;">(60s)</span>
+          </button>
+        </div>
+
+        <div class="card-footer">
+          <a href="/reset">Already clicked the link? Continue to Reset →</a>
+          <a href="/">← Return to Main Website</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="legal-notice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      </svg>
+      <span>Protected by Noa Ai End-to-End Authentication</span>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // ── Supabase Configuration ──
+      const cfg = window.NOA_CONFIG || {};
+      const SUPABASE_URL = cfg.SUPABASE_URL || 'https://lumbpfcruwjqudtdbkrm.supabase.co';
+      const SUPABASE_ANON_KEY = cfg.SUPABASE_ANON_KEY || 'sb_publishable_mUkwvs-7BXlOQmPTFBcXVQ_VEqmbQz_';
+      const APP_DEEP_LINK = cfg.APP_DEEP_LINK || 'myapp://auth-callback';
+
+      const supabase = (window.supabase && window.supabase.createClient)
+        ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+        : null;
+
+      // ── Elements ──
+      const form = document.getElementById('forgot-form');
+      const inpEmail = document.getElementById('inp-email');
+      const boxEmail = document.getElementById('box-email');
+      const btnSubmit = document.getElementById('btn-submit');
+      const btnText = document.getElementById('btn-text');
+      const btnArrow = document.getElementById('btn-arrow');
+      const formPanel = document.getElementById('form-panel');
+      const successPanel = document.getElementById('success-panel');
+      const sentEmailDisplay = document.getElementById('sent-email-display');
+      const btnResend = document.getElementById('btn-resend');
+      const resendCountdown = document.getElementById('resend-countdown');
+      const toast = document.getElementById('noa-toast');
+      const toastIcon = document.getElementById('toast-icon');
+      const toastMsg = document.getElementById('toast-msg');
+      const appDeepLink = document.getElementById('app-deep-link');
+
+      if (appDeepLink) appDeepLink.href = APP_DEEP_LINK;
+
+      let toastTimer = null;
+      let resendTimer = null;
+      let lastSubmittedEmail = '';
+
+      function showToast(message, type = 'info') {
+        if (!toast) return;
+        clearTimeout(toastTimer);
+        toastMsg.textContent = message;
+        toastIcon.textContent = type === 'success' ? '✓' : type === 'error' ? '⚠️' : 'ℹ️';
+        toast.className = 'type-' + type;
+        void toast.offsetWidth;
+        toast.classList.add('visible');
+
+        toastTimer = setTimeout(() => {
+          toast.classList.remove('visible');
+        }, 4000);
+      }
+
+      function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      function setLoading(isLoading) {
+        btnSubmit.disabled = isLoading;
+        if (isLoading) {
+          btnText.textContent = 'Sending Link...';
+          btnArrow.style.display = 'none';
+          const spinner = document.createElement('span');
+          spinner.className = 'spinner';
+          spinner.id = 'btn-spinner';
+          btnSubmit.appendChild(spinner);
+        } else {
+          btnText.textContent = 'Send Reset Link';
+          btnArrow.style.display = 'inline-block';
+          const spinner = document.getElementById('btn-spinner');
+          if (spinner) spinner.remove();
+        }
+      }
+
+      function startResendCooldown() {
+        let seconds = 60;
+        btnResend.disabled = true;
+        resendCountdown.style.display = 'inline';
+        resendCountdown.textContent = `(${seconds}s)`;
+
+        clearInterval(resendTimer);
+        resendTimer = setInterval(() => {
+          seconds--;
+          if (seconds <= 0) {
+            clearInterval(resendTimer);
+            btnResend.disabled = false;
+            resendCountdown.style.display = 'none';
+          } else {
+            resendCountdown.textContent = `(${seconds}s)`;
+          }
+        }, 1000);
+      }
+
+      async function handleSendReset(email) {
+        if (!supabase) {
+          showToast('Authentication service is currently unreachable.', 'error');
+          return;
+        }
+
+        setLoading(true);
+
+        try {
+          const redirectUrl = window.location.origin + '/reset';
+
+          const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: redirectUrl
+          });
+
+          if (error) {
+            console.error('Password reset error:', error);
+            boxEmail.classList.add('has-error');
+            showToast(error.message || 'Unable to send reset email. Please try again.', 'error');
+          } else {
+            lastSubmittedEmail = email;
+            sentEmailDisplay.textContent = email;
+            formPanel.classList.add('hidden');
+            successPanel.classList.remove('hidden');
+            showToast('Recovery link sent successfully!', 'success');
+            startResendCooldown();
+          }
+        } catch (err) {
+          console.error('Unexpected reset error:', err);
+          showToast('An unexpected network error occurred.', 'error');
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = inpEmail.value.trim().toLowerCase();
+
+        if (!email) {
+          boxEmail.classList.add('has-error');
+          showToast('Please enter your email address.', 'error');
+          inpEmail.focus();
+          return;
+        }
+
+        if (!isValidEmail(email)) {
+          boxEmail.classList.add('has-error');
+          showToast('Please enter a valid email address.', 'error');
+          inpEmail.focus();
+          return;
+        }
+
+        boxEmail.classList.remove('has-error');
+        handleSendReset(email);
+      });
+
+      inpEmail.addEventListener('input', function() {
+        if (boxEmail.classList.contains('has-error')) {
+          boxEmail.classList.remove('has-error');
+        }
+      });
+
+      btnResend.addEventListener('click', function() {
+        if (!lastSubmittedEmail) return;
+        handleSendReset(lastSubmittedEmail);
+      });
+
+    })();
+  </script>
+</body>
+</html>

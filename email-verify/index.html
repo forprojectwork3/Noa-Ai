@@ -1,500 +1,1068 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <title>Email Verification — NOA AI</title>
-    <meta name="description" content="Verify your email address for NOA AI — Android AI Lecture Companion." />
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/assets/logo.png" />
-    <link rel="apple-touch-icon" href="/assets/logo.png" />
-    <meta name="theme-color" content="#080510" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Email Verification — Noa Ai</title>
+  <meta name="description" content="Verify your email address for Noa Ai — Android AI Lecture Companion." />
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/logo.png" />
+  <link rel="apple-touch-icon" href="/assets/logo.png" />
+  <meta name="theme-color" content="#07050D" />
 
-    <!-- Config & Supabase Client -->
-    <script src="/assets/config.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-    <style>
-        :root {
-            --bg-color: #080510;
-            --card-bg: rgba(18, 12, 36, 0.88);
-            --primary: #ffd700;
-            --accent: #bc13fe;
-            --accent-glow: #6b11ff;
-            --text-main: #f3edfd;
-            --text-muted: #9c8eb9;
-            --success: #22c55e;
-            --error: #ef4444;
-        }
+  <!-- Config & Supabase Client -->
+  <script src="/assets/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <style>
+    :root {
+      --bg: #07050D;
+      --card-bg: rgba(14, 11, 23, 0.82);
+      --card-border: rgba(168, 85, 247, 0.22);
+      --primary: #a855f7;
+      --primary-end: #7c3aed;
+      --primary-gold: #ffd21f;
+      --text-main: #f5f3ff;
+      --text-muted: #9a94b3;
+      --text-dim: #64748b;
+      --success: #22c55e;
+      --error: #f87171;
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(107, 17, 255, 0.25) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(188, 19, 254, 0.20) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(15, 10, 30, 0.8) 0px, transparent 100%);
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-main);
-            overflow-x: hidden;
-            padding: 24px 16px;
-            -webkit-font-smoothing: antialiased;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 480px;
-        }
+    html, body {
+      min-height: 100%;
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(188, 19, 254, 0.25);
-            box-shadow: 
-                0 16px 48px 0 rgba(0, 0, 0, 0.6),
-                0 0 32px 0 rgba(107, 17, 255, 0.2),
-                inset 0 0 16px rgba(188, 19, 254, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 44px 28px;
-            text-align: center;
-            opacity: 0;
-            transform: scale(0.96) translateY(10px);
-            animation: entryAnim 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+    body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 96px 20px 40px;
+    }
 
-        @keyframes entryAnim {
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
+    /* Ambient animated background */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
 
-        .logo-wrapper {
-            margin-bottom: 24px;
-            display: inline-block;
-            position: relative;
-        }
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.55;
+      animation: orbFloat 14s ease-in-out infinite alternate;
+    }
 
-        .logo-hexagon {
-            width: 88px;
-            height: 88px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-glow) 100%);
-            clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 28px rgba(188, 19, 254, 0.45);
-            animation: pulseGlow 3s infinite ease-in-out;
-        }
+    .orb-1 {
+      width: 560px;
+      height: 560px;
+      top: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(124, 58, 237, 0.15) 50%, transparent 75%);
+    }
 
-        @keyframes pulseGlow {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(188, 19, 254, 0.35);
-                transform: scale(1);
-            }
-            50% {
-                box-shadow: 0 0 36px rgba(188, 19, 254, 0.65);
-                transform: scale(1.03);
-            }
-        }
+    .orb-2 {
+      width: 440px;
+      height: 440px;
+      bottom: -100px;
+      right: 5%;
+      background: radial-gradient(circle, rgba(107, 17, 255, 0.28) 0%, transparent 70%);
+      animation-duration: 18s;
+      animation-delay: -4s;
+    }
 
-        .logo-inner {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--primary);
-            text-shadow: 0 0 12px rgba(255, 215, 0, 0.65);
-            letter-spacing: -1px;
-            line-height: 1;
-        }
+    .orb-3 {
+      width: 380px;
+      height: 380px;
+      bottom: 12%;
+      left: 5%;
+      background: radial-gradient(circle, rgba(255, 210, 31, 0.12) 0%, transparent 70%);
+      animation-duration: 20s;
+      animation-delay: -8s;
+    }
 
-        h1 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, #ffffff 30%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-            line-height: 1.25;
-        }
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 80%);
+    }
 
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 6px 16px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            border-radius: 999px;
-            margin-bottom: 20px;
-            letter-spacing: 0.8px;
-            transition: all 0.3s ease;
-        }
+    @keyframes orbFloat {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(30px, 20px) scale(1.08); }
+      100% { transform: translate(-25px, -15px) scale(0.96); }
+    }
 
-        .status-success {
-            background: rgba(34, 197, 94, 0.15);
-            border: 1px solid rgba(34, 197, 94, 0.4);
-            color: #4ade80;
-        }
+    /* ── Sticky Top Header ── */
+    .top-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      z-index: 100;
+      background: rgba(7, 5, 13, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+    }
 
-        .status-verifying {
-            background: rgba(255, 215, 0, 0.15);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            color: var(--primary);
-            animation: pulseBadge 1.5s infinite;
-        }
+    .header-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-        .status-error {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            color: #f87171;
-        }
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      outline: none;
+      transition: transform 0.25s ease;
+    }
 
-        @keyframes pulseBadge {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.65; }
-        }
+    .brand-link:hover {
+      transform: translateY(-1px);
+    }
 
-        p {
-            font-size: 14.5px;
-            line-height: 1.6;
-            color: var(--text-muted);
-            margin-bottom: 22px;
-        }
+    .brand-logo-frame {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(124, 58, 237, 0.1) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
+      transition: all 0.3s ease;
+    }
 
-        .highlight {
-            color: var(--text-main);
-            font-weight: 600;
-        }
+    .brand-link:hover .brand-logo-frame {
+      border-color: rgba(168, 85, 247, 0.6);
+      box-shadow: 0 0 22px rgba(168, 85, 247, 0.45);
+      transform: rotate(-3deg) scale(1.04);
+    }
 
-        .info-box {
-            background: rgba(188, 19, 254, 0.08);
-            border: 1px solid rgba(188, 19, 254, 0.2);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 13px;
-            color: #d8b4fe;
-            margin-bottom: 24px;
-            line-height: 1.5;
-            word-break: break-word;
-        }
+    .brand-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
 
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 15px 24px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-glow) 100%);
-            border: none;
-            border-radius: 14px;
-            color: #ffffff;
-            font-size: 15.5px;
-            font-weight: 700;
-            text-decoration: none;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(107, 17, 255, 0.4);
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
-        }
+    .brand-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 26px rgba(188, 19, 254, 0.6);
-        }
+    .brand-text em {
+      font-style: italic;
+      color: var(--primary-gold);
+      text-shadow: 0 0 14px rgba(255, 210, 31, 0.4);
+    }
 
-        .btn:active {
-            transform: translateY(1px);
-        }
+    .brand-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.14);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      margin-left: 6px;
+    }
 
-        .redirect-notice {
-            margin-top: 18px;
-            font-size: 12.5px;
-            color: rgba(156, 142, 185, 0.75);
-        }
+    .home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-        #countdown {
-            font-weight: bold;
-            color: var(--primary);
-        }
+    .home-btn:hover {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: rgba(168, 85, 247, 0.45);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.25);
+    }
 
-        .spinner {
-            display: inline-block;
-            width: 13px;
-            height: 13px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 0.8s linear infinite;
-        }
+    .home-btn svg {
+      width: 15px;
+      height: 15px;
+      transition: transform 0.2s ease;
+    }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+    .home-btn:hover svg {
+      transform: translateX(-3px);
+    }
 
-        .back-home {
-            display: inline-block;
-            margin-top: 16px;
-            color: var(--text-muted);
-            font-size: 13px;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
+    /* ── Floating Toast ── */
+    #noa-toast {
+      position: fixed;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20, 14, 38, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 12px 22px;
+      border-radius: 999px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 24px rgba(168, 85, 247, 0.25);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      backdrop-filter: blur(20px);
+      transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+      max-width: 90vw;
+    }
 
-        .back-home:hover {
-            color: var(--primary);
-        }
-    </style>
+    #noa-toast.visible {
+      top: 90px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #noa-toast.type-success {
+      border-color: rgba(34, 197, 94, 0.5);
+      color: #4ade80;
+    }
+
+    #noa-toast.type-error {
+      border-color: rgba(248, 113, 113, 0.5);
+      color: #f87171;
+    }
+
+    /* ── Main Card ── */
+    .card-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 490px;
+    }
+
+    .auth-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 44px 34px;
+      text-align: center;
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      box-shadow: 
+        0 24px 60px -12px rgba(0, 0, 0, 0.8),
+        0 0 36px -4px rgba(168, 85, 247, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      animation: cardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), var(--primary-gold), transparent);
+    }
+
+    @keyframes cardEnter {
+      0% {
+        opacity: 0;
+        transform: scale(0.96) translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .icon-halo {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 22px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.22) 0%, rgba(124, 58, 237, 0.1) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 32px rgba(168, 85, 247, 0.35);
+      position: relative;
+    }
+
+    .icon-halo svg {
+      width: 40px;
+      height: 40px;
+      color: var(--primary-gold);
+      filter: drop-shadow(0 0 10px rgba(255, 210, 31, 0.45));
+    }
+
+    .icon-halo.success-halo {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(16, 185, 129, 0.1) 100%);
+      border-color: rgba(34, 197, 94, 0.45);
+      box-shadow: 0 0 36px rgba(34, 197, 94, 0.35);
+    }
+
+    .icon-halo.success-halo svg {
+      color: #4ade80;
+      filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.45));
+    }
+
+    .icon-halo.error-halo {
+      background: linear-gradient(135deg, rgba(248, 113, 113, 0.22) 0%, rgba(220, 38, 38, 0.1) 100%);
+      border-color: rgba(248, 113, 113, 0.45);
+      box-shadow: 0 0 32px rgba(248, 113, 113, 0.35);
+    }
+
+    .icon-halo.error-halo svg {
+      color: #f87171;
+      filter: drop-shadow(0 0 10px rgba(248, 113, 113, 0.45));
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 14px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.14);
+      border: 1px solid rgba(168, 85, 247, 0.32);
+      color: #d8b4fe;
+      margin-bottom: 14px;
+    }
+
+    .pill-badge.verifying {
+      background: rgba(255, 210, 31, 0.14);
+      border-color: rgba(255, 210, 31, 0.4);
+      color: var(--primary-gold);
+      animation: pulseBadge 1.5s infinite;
+    }
+
+    .pill-badge.success {
+      background: rgba(34, 197, 94, 0.14);
+      border-color: rgba(34, 197, 94, 0.4);
+      color: #4ade80;
+    }
+
+    .pill-badge.error {
+      background: rgba(248, 113, 113, 0.14);
+      border-color: rgba(248, 113, 113, 0.4);
+      color: #f87171;
+    }
+
+    @keyframes pulseBadge {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--primary-gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .highlight-name {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .info-features {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #d8b4fe;
+    }
+
+    .feature-item svg {
+      width: 14px;
+      height: 14px;
+      color: var(--primary-gold);
+      flex-shrink: 0;
+    }
+
+    /* ── Action Buttons ── */
+    .btn-submit {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-end) 100%);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 15.5px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+    }
+
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: rotate(25deg);
+      transition: left 0.7s ease;
+    }
+
+    .btn-submit:hover::after {
+      left: 120%;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(168, 85, 247, 0.6);
+    }
+
+    .btn-submit:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      margin-top: 10px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .large-spinner {
+      width: 48px;
+      height: 48px;
+      border: 3.5px solid rgba(168, 85, 247, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 0.9s linear infinite;
+      margin: 24px auto;
+    }
+
+    .btn-spinner {
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(255, 210, 31, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-gold);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .redirect-note {
+      margin-top: 16px;
+      font-size: 12.5px;
+      color: var(--text-dim);
+    }
+
+    .countdown-highlight {
+      color: var(--primary-gold);
+      font-weight: 700;
+    }
+
+    .card-footer {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 13px;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .card-footer a:hover {
+      color: var(--primary-gold);
+    }
+
+    .legal-notice {
+      margin-top: 24px;
+      font-size: 11.5px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .legal-notice svg {
+      width: 13px;
+      height: 13px;
+      color: var(--primary);
+    }
+
+    /* ── Particle Canvas ── */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .state-panel {
+      display: block;
+    }
+
+    .state-panel.hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 84px 16px 28px;
+      }
+      .auth-card {
+        padding: 34px 20px;
+        border-radius: 22px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      .brand-badge {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="logo-wrapper">
-                <div class="logo-hexagon">
-                    <span class="logo-inner">N</span>
-                </div>
-            </div>
 
-            <div id="status-badge" class="status-badge status-verifying">
-                <span class="spinner" id="status-spinner"></span>
-                <span>Verifying Account...</span>
-            </div>
+  <!-- Ambient Dynamic Background -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
 
-            <h1 id="main-title">Confirming Your Account...</h1>
-            
-            <p id="main-desc">
-                Please wait a moment while we verify your email and activate your <span class="highlight">NOA AI</span> profile.
-            </p>
+  <!-- Celebration Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
 
-            <div class="info-box" id="info-box">
-                Connecting to NOA AI secure authentication...
-            </div>
-
-            <a href="myapp://auth-callback" id="launch-btn" class="btn" style="display:none;">
-                Launch NOA AI App
-            </a>
-
-            <div class="redirect-notice" id="redirect-notice" style="display:none;">
-                Opening app in <span id="countdown">4</span> seconds...
-            </div>
-
-            <div>
-                <a href="/" class="back-home">← Back to NOA AI Website</a>
-            </div>
+  <!-- Top Fixed Brand Header -->
+  <header class="top-header" role="banner">
+    <div class="header-container">
+      <a href="/" class="brand-link" aria-label="Noa Ai Homepage">
+        <div class="brand-logo-frame">
+          <img src="/assets/logo.png" alt="Noa Ai Logo" class="brand-logo-img" width="28" height="28" />
         </div>
+        <span class="brand-text">Noa <em>Ai</em></span>
+        <span class="brand-badge">Verification</span>
+      </a>
+
+      <a href="/" class="home-btn" aria-label="Return to Main Website">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Home</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Floating Toast Notifications -->
+  <div id="noa-toast" role="alert" aria-live="assertive">
+    <span id="toast-icon">✨</span>
+    <span id="toast-msg">Notification message</span>
+  </div>
+
+  <!-- Main Card Container -->
+  <main class="card-wrapper">
+    <div class="auth-card" id="main-card">
+
+      <!-- ── STATE 1: VERIFYING ACCOUNT ── -->
+      <div id="loading-panel" class="state-panel">
+        <div class="pill-badge verifying">
+          <span class="btn-spinner"></span>
+          <span>Verifying Account</span>
+        </div>
+        <h1>Confirming Your Profile...</h1>
+        <p class="subtitle">
+          Please wait a moment while we verify your email address with Noa Ai secure cloud.
+        </p>
+        <div class="large-spinner"></div>
+      </div>
+
+      <!-- ── STATE 2: SUCCESS / ACCOUNT ACTIVATED ── -->
+      <div id="success-panel" class="state-panel hidden">
+        <div class="icon-halo success-halo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+
+        <div class="pill-badge success">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Account Activated</span>
+        </div>
+
+        <h1>Account Verified! 🚀</h1>
+        <p class="subtitle">
+          Thank you for confirming your email. Your <span class="highlight-name">Noa Ai</span> lecture companion profile is completely activated!
+        </p>
+
+        <div class="info-card">
+          <div style="font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+            Ready to learn smarter:
+          </div>
+          <div class="info-features">
+            <div class="feature-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Instant AI Notes & Timestamps</span>
+            </div>
+            <div class="feature-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Automated Study Flashcards</span>
+            </div>
+            <div class="feature-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Export Lecture Summaries to PDF</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="myapp://auth-callback" id="launch-app-btn" class="btn-submit">
+          <span>Launch Noa Ai App</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+
+        <div class="redirect-note">
+          Redirecting to app in <span id="countdown" class="countdown-highlight">4</span>s...
+        </div>
+
+        <div class="card-footer">
+          <a href="/">← Return to Main Website</a>
+        </div>
+      </div>
+
+      <!-- ── STATE 3: VERIFICATION ERROR / EXPIRED ── -->
+      <div id="error-panel" class="state-panel hidden">
+        <div class="icon-halo error-halo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+
+        <div class="pill-badge error">
+          <span>Verification Incomplete</span>
+        </div>
+
+        <h1>Verification Incomplete ⚠️</h1>
+        <p class="subtitle" id="error-desc-text">
+          The email confirmation link is invalid, already used, or has expired.
+        </p>
+
+        <div class="info-card">
+          If you have already verified this account, you can launch Noa Ai to sign in immediately. If your link expired, please request a new one from the app.
+        </div>
+
+        <a href="myapp://auth-callback" id="error-app-btn" class="btn-submit">
+          <span>Open Noa Ai App</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+
+        <a href="/forgot" class="btn-secondary">
+          <span>Forgot Password / Reset Link</span>
+        </a>
+
+        <div class="card-footer">
+          <a href="/">← Return to Main Website</a>
+        </div>
+      </div>
+
     </div>
 
-    <script>
-        (async function() {
-            'use strict';
+    <div class="legal-notice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      </svg>
+      <span>Protected by Noa Ai End-to-End Authentication</span>
+    </div>
+  </main>
 
-            // ── Supabase Client Initialisation from /assets/config.js ──
-            const cfg = window.NOA_CONFIG || {};
-            const SUPABASE_URL = cfg.SUPABASE_URL || "https://lumbpfcruwjqudtdbkrm.supabase.co";
-            const SUPABASE_ANON_KEY = cfg.SUPABASE_ANON_KEY || "sb_publishable_mUkwvs-7BXlOQmPTFBcXVQ_VEqmbQz_";
-            const deepLinkBase = cfg.APP_DEEP_LINK || "myapp://auth-callback";
+  <script>
+    (async function () {
+      'use strict';
 
-            const supabase = (window.supabase && window.supabase.createClient)
-                ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-                    auth: { flowType: 'pkce', detectSessionInUrl: true }
-                })
-                : null;
+      // ── Supabase Configuration ──
+      const cfg = window.NOA_CONFIG || {};
+      const SUPABASE_URL = cfg.SUPABASE_URL || 'https://lumbpfcruwjqudtdbkrm.supabase.co';
+      const SUPABASE_ANON_KEY = cfg.SUPABASE_ANON_KEY || 'sb_publishable_mUkwvs-7BXlOQmPTFBcXVQ_VEqmbQz_';
+      const deepLinkBase = cfg.APP_DEEP_LINK || 'myapp://auth-callback';
 
-            const statusBadge    = document.getElementById('status-badge');
-            const mainTitle      = document.getElementById('main-title');
-            const mainDesc       = document.getElementById('main-desc');
-            const infoBox        = document.getElementById('info-box');
-            const launchBtn      = document.getElementById('launch-btn');
-            const redirectNotice = document.getElementById('redirect-notice');
-            const countdownEl    = document.getElementById('countdown');
+      const supabase = (window.supabase && window.supabase.createClient)
+        ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { flowType: 'pkce', detectSessionInUrl: true }
+          })
+        : null;
 
-            let authParams = "";
+      // ── Elements ──
+      const loadingPanel = document.getElementById('loading-panel');
+      const successPanel = document.getElementById('success-panel');
+      const errorPanel   = document.getElementById('error-panel');
+      const errorDescText= document.getElementById('error-desc-text');
+      const launchAppBtn = document.getElementById('launch-app-btn');
+      const errorAppBtn  = document.getElementById('error-app-btn');
+      const countdownEl  = document.getElementById('countdown');
 
-            function setUIState(type, title, desc, badgeText, badgeClass, showSpinner) {
-                if (mainTitle) mainTitle.innerHTML = title;
-                if (mainDesc) mainDesc.innerHTML = desc;
-                if (statusBadge) {
-                    statusBadge.className = 'status-badge ' + badgeClass;
-                    statusBadge.innerHTML = (showSpinner ? '<span class="spinner"></span>' : '') + badgeText;
-                }
+      const toast        = document.getElementById('noa-toast');
+      const toastIcon    = document.getElementById('toast-icon');
+      const toastMsg     = document.getElementById('toast-msg');
+
+      if (errorAppBtn) errorAppBtn.href = deepLinkBase;
+
+      let toastTimer = null;
+
+      function showToast(message, type = 'info') {
+        if (!toast) return;
+        clearTimeout(toastTimer);
+        toastMsg.textContent = message;
+        toastIcon.textContent = type === 'success' ? '✓' : type === 'error' ? '⚠️' : 'ℹ️';
+        toast.className = 'type-' + type;
+        void toast.offsetWidth;
+        toast.classList.add('visible');
+
+        toastTimer = setTimeout(() => {
+          toast.classList.remove('visible');
+        }, 4000);
+      }
+
+      function showError(message) {
+        loadingPanel.classList.add('hidden');
+        successPanel.classList.add('hidden');
+        errorPanel.classList.remove('hidden');
+        if (errorDescText && message) {
+          errorDescText.textContent = message;
+        }
+      }
+
+      function showSuccess(redirectUrl) {
+        loadingPanel.classList.add('hidden');
+        errorPanel.classList.add('hidden');
+        successPanel.classList.remove('hidden');
+
+        showToast('Email verified successfully! Profile activated.', 'success');
+        triggerConfetti();
+
+        if (launchAppBtn) {
+          launchAppBtn.href = redirectUrl;
+        }
+
+        let timeLeft = 4;
+        if (countdownEl) countdownEl.textContent = timeLeft;
+
+        const timer = setInterval(() => {
+          timeLeft--;
+          if (countdownEl) countdownEl.textContent = timeLeft;
+          if (timeLeft <= 0) {
+            clearInterval(timer);
+            window.location.href = redirectUrl;
+          }
+        }, 1000);
+      }
+
+      /* ── Confetti Animation ── */
+      function triggerConfetti() {
+        const canvas = document.getElementById('confetti-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const colors = ['#a855f7', '#7c3aed', '#ffd21f', '#ffffff', '#22c55e', '#38bdf8'];
+
+        for (let i = 0; i < 90; i++) {
+          particles.push({
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            vx: (Math.random() - 0.5) * 16,
+            vy: (Math.random() - 0.5) * 16 - 3,
+            size: Math.random() * 7 + 4,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            rotation: Math.random() * 360,
+            rotSpeed: (Math.random() - 0.5) * 10,
+            opacity: 1
+          });
+        }
+
+        let frame = 0;
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          frame++;
+          let stillAlive = false;
+
+          for (const p of particles) {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.35;
+            p.vx *= 0.98;
+            p.rotation += p.rotSpeed;
+            if (frame > 30) p.opacity -= 0.018;
+
+            if (p.opacity > 0) {
+              stillAlive = true;
+              ctx.save();
+              ctx.translate(p.x, p.y);
+              ctx.rotate((p.rotation * Math.PI) / 180);
+              ctx.globalAlpha = Math.max(p.opacity, 0);
+              ctx.fillStyle = p.color;
+              ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+              ctx.restore();
             }
+          }
 
-            function startAutoRedirect(targetUrl) {
-                if (launchBtn) {
-                    launchBtn.href = targetUrl;
-                    launchBtn.style.display = "inline-flex";
-                }
-                if (infoBox) {
-                    infoBox.textContent = "Tap the button above if you are not automatically redirected to the app.";
-                }
-                if (redirectNotice) redirectNotice.style.display = "block";
-                
-                let timeLeft = 4;
-                if (countdownEl) countdownEl.textContent = timeLeft;
+          if (stillAlive && frame < 150) {
+            requestAnimationFrame(animate);
+          } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+          }
+        }
+        animate();
+      }
 
-                const timer = setInterval(() => {
-                    timeLeft--;
-                    if (countdownEl) countdownEl.textContent = timeLeft;
-                    if (timeLeft <= 0) {
-                        clearInterval(timer);
-                        window.location.href = targetUrl;
-                    }
-                }, 1000);
+      /* ── Email Verification Execution ── */
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hash = window.location.hash || '';
+
+        const tokenHash  = urlParams.get('token_hash') || urlParams.get('token');
+        const verifyType = urlParams.get('type') || 'signup';
+        const code       = urlParams.get('code');
+
+        // Check for error parameters in query or hash
+        const error = urlParams.get('error') || (hash.includes('error=') ? new URLSearchParams(hash.substring(1)).get('error') : null);
+        const errorDesc = urlParams.get('error_description') || (hash.includes('error_description=') ? new URLSearchParams(hash.substring(1)).get('error_description') : null);
+
+        if (error) {
+          const msg = errorDesc ? decodeURIComponent(errorDesc.replace(/\+/g, ' ')) : 'The confirmation link is invalid or has expired.';
+          showError(msg);
+          return;
+        }
+
+        let authParams = '';
+
+        // ── 1. token_hash verification ──
+        if (tokenHash && supabase) {
+          let { data, error: verifyError } = await supabase.auth.verifyOtp({
+            token_hash: tokenHash,
+            type: verifyType === 'email' ? 'email' : 'signup'
+          });
+
+          // Fallback to type: 'email' if signup failed
+          if (verifyError && verifyType !== 'email') {
+            const fallbackRes = await supabase.auth.verifyOtp({
+              token_hash: tokenHash,
+              type: 'email'
+            });
+            data = fallbackRes.data;
+            verifyError = fallbackRes.error;
+          }
+
+          if (verifyError) {
+            console.error('OTP verify error:', verifyError);
+            showError(verifyError.message || 'This verification link has expired or was already used.');
+            return;
+          }
+
+          if (data && data.session) {
+            const uEmail = data.session.user?.email || "";
+                        authParams = `#access_token=${encodeURIComponent(data.session.access_token)}&refresh_token=${encodeURIComponent(data.session.refresh_token)}${uEmail ? `&email=${encodeURIComponent(uEmail)}` : ""}&type=signup`;
+          }
+        }
+        // ── 2. PKCE code exchange ──
+        else if (code && supabase) {
+          const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+          if (exchangeError) {
+            console.error('Code exchange error:', exchangeError);
+            showError(exchangeError.message || 'The authorization code is invalid or expired.');
+            return;
+          }
+          if (data && data.session) {
+            const uEmail = data.session.user?.email || "";
+                        authParams = `#access_token=${encodeURIComponent(data.session.access_token)}&refresh_token=${encodeURIComponent(data.session.refresh_token)}${uEmail ? `&email=${encodeURIComponent(uEmail)}` : ""}&type=signup`;
+          }
+        }
+        // ── 3. Hash with access token ──
+        else if (hash && hash.includes('access_token=')) {
+          authParams = hash;
+          if (supabase) {
+            const hp = new URLSearchParams(hash.substring(1));
+            const at = hp.get('access_token');
+            const rt = hp.get('refresh_token') || '';
+            if (at) {
+              await supabase.auth.setSession({ access_token: at, refresh_token: rt });
             }
+          }
+        }
+        // ── 4. Existing Session ──
+        else if (supabase) {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session) {
+            authParams = `#access_token=${encodeURIComponent(session.access_token)}&refresh_token=${encodeURIComponent(session.refresh_token)}&type=signup`;
+          } else {
+            authParams = hash || window.location.search || '';
+          }
+        } else {
+          authParams = hash || window.location.search || '';
+        }
 
-            try {
-                const urlParams = new URLSearchParams(window.location.search);
-                const hash = window.location.hash || "";
-                
-                const tokenHash = urlParams.get('token_hash') || urlParams.get('token');
-                const verifyType = urlParams.get('type') || 'signup';
-                const code = urlParams.get('code');
-                
-                // Extract error details if any exist in query or hash
-                const error = urlParams.get('error') || (hash.includes('error=') ? new URLSearchParams(hash.substring(1)).get('error') : null);
-                const errorDescription = urlParams.get('error_description') || (hash.includes('error_description=') ? new URLSearchParams(hash.substring(1)).get('error_description') : null);
+        showSuccess(deepLinkBase + authParams);
 
-                if (error) {
-                    const errorMsg = errorDescription ? decodeURIComponent(errorDescription.replace(/\+/g, ' ')) : "The confirmation link is invalid or has expired.";
-                    setUIState('error', 'Verification Incomplete ⚠️', errorMsg, 'Link Expired', 'status-error', false);
-                    if (launchBtn) {
-                        launchBtn.textContent = "Open NOA AI App";
-                        launchBtn.href = deepLinkBase;
-                        launchBtn.style.display = "inline-flex";
-                    }
-                    if (infoBox) {
-                        infoBox.textContent = "Please request a new confirmation email from the NOA AI sign up page.";
-                    }
-                    return;
-                }
+      } catch (err) {
+        console.error('Unexpected verify error:', err);
+        showSuccess(deepLinkBase + (window.location.hash || ''));
+      }
 
-                // ── CASE 1: token_hash parameter passed directly ──
-                if (tokenHash && supabase) {
-                    setUIState('loading', 'Verifying Email... ⏳', 'Confirming your account with Supabase secure auth...', 'Verifying', 'status-verifying', true);
-                    
-                    let { data, error: verifyError } = await supabase.auth.verifyOtp({
-                        token_hash: tokenHash,
-                        type: verifyType === 'email' ? 'email' : 'signup'
-                    });
-
-                    // Fallback to type: 'email' if signup type didn't match
-                    if (verifyError && verifyType !== 'email') {
-                        const fallbackRes = await supabase.auth.verifyOtp({
-                            token_hash: tokenHash,
-                            type: 'email'
-                        });
-                        data = fallbackRes.data;
-                        verifyError = fallbackRes.error;
-                    }
-
-                    if (verifyError) {
-                        console.error("OTP verification error:", verifyError);
-                        setUIState('error', 'Verification Incomplete ⚠️', verifyError.message || 'This verification link may have expired or was already used.', 'Link Expired', 'status-error', false);
-                        if (launchBtn) {
-                            launchBtn.textContent = "Open NOA AI App";
-                            launchBtn.href = deepLinkBase;
-                            launchBtn.style.display = "inline-flex";
-                        }
-                        if (infoBox) {
-                            infoBox.textContent = "If you already confirmed, simply launch NOA AI to log in.";
-                        }
-                        return;
-                    }
-
-                    if (data && data.session) {
-                        authParams = `#access_token=${encodeURIComponent(data.session.access_token)}&refresh_token=${encodeURIComponent(data.session.refresh_token)}&type=signup`;
-                    }
-                }
-                // ── CASE 2: PKCE code exchange ──
-                else if (code && supabase) {
-                    setUIState('loading', 'Verifying Email... ⏳', 'Exchanging authorization token with Supabase...', 'Verifying', 'status-verifying', true);
-                    const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-                    
-                    if (exchangeError) {
-                        console.error("Code exchange error:", exchangeError);
-                        setUIState('error', 'Verification Incomplete ⚠️', exchangeError.message || 'The authorization code is invalid or expired.', 'Link Expired', 'status-error', false);
-                        if (launchBtn) {
-                            launchBtn.textContent = "Open NOA AI App";
-                            launchBtn.href = deepLinkBase;
-                            launchBtn.style.display = "inline-flex";
-                        }
-                        return;
-                    }
-                    if (data && data.session) {
-                        authParams = `#access_token=${encodeURIComponent(data.session.access_token)}&refresh_token=${encodeURIComponent(data.session.refresh_token)}&type=signup`;
-                    }
-                }
-                // ── CASE 3: Pre-verified tokens via URL hash (#access_token=...) ──
-                else if (hash && hash.includes('access_token=')) {
-                    authParams = hash;
-                    if (supabase) {
-                        const hashParams = new URLSearchParams(hash.substring(1));
-                        const accessToken = hashParams.get('access_token');
-                        const refreshToken = hashParams.get('refresh_token') || '';
-                        if (accessToken) {
-                            await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
-                        }
-                    }
-                }
-                // ── CASE 4: Active session verification ──
-                else if (supabase) {
-                    const { data: { session } } = await supabase.auth.getSession();
-                    if (session) {
-                        authParams = `#access_token=${encodeURIComponent(session.access_token)}&refresh_token=${encodeURIComponent(session.refresh_token)}&type=signup`;
-                    } else {
-                        authParams = window.location.hash || window.location.search || "";
-                    }
-                } else {
-                    authParams = window.location.hash || window.location.search || "";
-                }
-
-                // ── SUCCESS STATE ──
-                setUIState(
-                    'success',
-                    'Account Verified! 🚀',
-                    'Thank you for confirming your email address. Your <span class="highlight">NOA AI</span> smart lecture companion profile is now completely activated!',
-                    'Account Activated',
-                    'status-success',
-                    false
-                );
-                startAutoRedirect(deepLinkBase + authParams);
-
-            } catch (err) {
-                console.error("Unexpected verification error:", err);
-                const fallbackParams = window.location.hash || window.location.search || "";
-                setUIState(
-                    'success',
-                    'Account Verified! 🚀',
-                    'Your email verification has been confirmed. Tap below to launch your <span class="highlight">NOA AI</span> companion app.',
-                    'Account Activated',
-                    'status-success',
-                    false
-                );
-                startAutoRedirect(deepLinkBase + fallbackParams);
-            }
-        })();
-    </script>
+    })();
+  </script>
 </body>
 </html>

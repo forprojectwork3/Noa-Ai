@@ -22,6 +22,7 @@
   ],
   "routes": [
     { "handle": "filesystem" },
+    { "src": "/forgot(/.*)?", "dest": "/forgot/index.html" },
     { "src": "/email-verify(/.*)?", "dest": "/email-verify/index.html" },
     { "src": "/verify(/.*)?", "dest": "/email-verify/index.html" },
     { "src": "/reset(/.*)?", "dest": "/reset/index.html" },
