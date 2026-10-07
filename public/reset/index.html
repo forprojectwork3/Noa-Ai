@@ -10,7 +10,7 @@
   <meta name="description" content="Set a new secure password for your Noa Ai account." />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/assets/logo.png" />
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
   <link rel="apple-touch-icon" href="/assets/logo.png" />
   <meta name="theme-color" content="#07050D" />
 
@@ -26,20 +26,22 @@
   <style>
     :root {
       --bg: #07050D;
-      --card-bg: rgba(14, 11, 23, 0.82);
-      --card-border: rgba(168, 85, 247, 0.22);
-      --input-bg: rgba(9, 6, 18, 0.85);
+      --card-bg: rgba(13, 10, 22, 0.78);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-border-top: rgba(168, 85, 247, 0.4);
+      --input-bg: rgba(255, 255, 255, 0.03);
       --input-border: rgba(255, 255, 255, 0.1);
       --input-focus: #a855f7;
-      --primary: #a855f7;
+      --primary: #9333ea;
+      --primary-hover: #a855f7;
       --primary-end: #7c3aed;
       --primary-gold: #ffd21f;
-      --text-main: #f5f3ff;
-      --text-muted: #9a94b3;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
       --text-dim: #64748b;
       --success: #22c55e;
       --warning: #f59e0b;
-      --error: #f87171;
+      --error: #ef4444;
       --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
@@ -65,10 +67,10 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 96px 20px 40px;
+      padding: 84px 20px 36px;
     }
 
-    /* Ambient animated background */
+    /* Ambient animated lighting */
     .ambient-bg {
       position: fixed;
       inset: 0;
@@ -80,64 +82,43 @@
     .ambient-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.55;
-      animation: orbFloat 14s ease-in-out infinite alternate;
+      filter: blur(120px);
+      opacity: 0.45;
+      animation: orbFloat 16s ease-in-out infinite alternate;
     }
 
     .orb-1 {
-      width: 580px;
-      height: 580px;
-      top: -160px;
+      width: 500px;
+      height: 500px;
+      top: -120px;
       left: 50%;
       transform: translateX(-50%);
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(124, 58, 237, 0.15) 50%, transparent 75%);
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.28) 0%, rgba(124, 58, 237, 0.12) 50%, transparent 70%);
     }
 
     .orb-2 {
-      width: 440px;
-      height: 440px;
-      bottom: -100px;
-      right: 5%;
-      background: radial-gradient(circle, rgba(107, 17, 255, 0.28) 0%, transparent 70%);
-      animation-duration: 18s;
-      animation-delay: -4s;
-    }
-
-    .orb-3 {
-      width: 380px;
-      height: 380px;
-      bottom: 12%;
-      left: 5%;
-      background: radial-gradient(circle, rgba(255, 210, 31, 0.12) 0%, transparent 70%);
+      width: 400px;
+      height: 400px;
+      bottom: -80px;
+      right: 10%;
+      background: radial-gradient(circle, rgba(107, 17, 255, 0.22) 0%, transparent 70%);
       animation-duration: 20s;
-      animation-delay: -8s;
-    }
-
-    .grid-overlay {
-      position: absolute;
-      inset: 0;
-      background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 80%);
-      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 80%);
+      animation-delay: -5s;
     }
 
     @keyframes orbFloat {
       0%   { transform: translate(0, 0) scale(1); }
-      50%  { transform: translate(30px, 20px) scale(1.08); }
-      100% { transform: translate(-25px, -15px) scale(0.96); }
+      50%  { transform: translate(25px, 15px) scale(1.05); }
+      100% { transform: translate(-20px, -10px) scale(0.95); }
     }
 
-    /* ── Sticky Top Header ── */
+    /* ── Top Header ── */
     .top-header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      height: 72px;
+      height: 64px;
       z-index: 100;
       background: rgba(7, 5, 13, 0.75);
       backdrop-filter: blur(20px);
@@ -149,7 +130,7 @@
 
     .header-container {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1140px;
       margin: 0 auto;
       padding: 0 24px;
       display: flex;
@@ -160,131 +141,108 @@
     .brand-link {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       text-decoration: none;
       outline: none;
-      transition: transform 0.25s ease;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
     .brand-link:hover {
+      opacity: 0.92;
       transform: translateY(-1px);
     }
 
     .brand-logo-frame {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(124, 58, 237, 0.1) 100%);
-      border: 1px solid rgba(168, 85, 247, 0.35);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 6px;
       box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
-      transition: all 0.3s ease;
     }
 
-    .brand-link:hover .brand-logo-frame {
-      border-color: rgba(168, 85, 247, 0.6);
-      box-shadow: 0 0 22px rgba(168, 85, 247, 0.45);
-      transform: rotate(-3deg) scale(1.04);
-    }
-
-    .brand-logo-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+    .brand-logo-svg {
+      width: 24px;
+      height: 24px;
     }
 
     .brand-text {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 800;
       letter-spacing: -0.02em;
-      color: var(--text-main);
+      color: #ffffff;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
     }
 
     .brand-text em {
       font-style: italic;
       color: var(--primary-gold);
-      text-shadow: 0 0 14px rgba(255, 210, 31, 0.4);
-    }
-
-    .brand-badge {
-      font-size: 10.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(168, 85, 247, 0.14);
-      color: #d8b4fe;
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      margin-left: 6px;
+      text-shadow: 0 0 12px rgba(255, 210, 31, 0.35);
     }
 
     .home-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 9px 18px;
+      gap: 7px;
+      padding: 7px 15px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--text-main);
-      font-size: 13.5px;
-      font-weight: 600;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
       text-decoration: none;
-      backdrop-filter: blur(12px);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.2s ease;
     }
 
     .home-btn:hover {
-      background: rgba(168, 85, 247, 0.15);
-      border-color: rgba(168, 85, 247, 0.45);
+      background: rgba(168, 85, 247, 0.12);
+      border-color: rgba(168, 85, 247, 0.35);
       color: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.25);
+      transform: translateY(-1px);
     }
 
     .home-btn svg {
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
       transition: transform 0.2s ease;
     }
 
     .home-btn:hover svg {
-      transform: translateX(-3px);
+      transform: translateX(-2px);
     }
 
     /* ── Floating Toast ── */
     #noa-toast {
       position: fixed;
-      top: -120px;
+      top: -100px;
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(20, 14, 38, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      padding: 12px 22px;
+      background: rgba(20, 16, 36, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 10px 20px;
       border-radius: 999px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 24px rgba(168, 85, 247, 0.25);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.2);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       font-size: 13.5px;
       font-weight: 600;
       z-index: 1000;
       opacity: 0;
       pointer-events: none;
-      backdrop-filter: blur(20px);
-      transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+      backdrop-filter: blur(16px);
+      transition: top 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
       max-width: 90vw;
     }
 
     #noa-toast.visible {
-      top: 90px;
+      top: 80px;
       opacity: 1;
       pointer-events: auto;
     }
@@ -295,49 +253,38 @@
     }
 
     #noa-toast.type-error {
-      border-color: rgba(248, 113, 113, 0.5);
+      border-color: rgba(239, 68, 68, 0.5);
       color: #f87171;
     }
 
-    /* ── Main Card ── */
+    /* ── Main Auth Card ── */
     .card-wrapper {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 480px;
+      max-width: 440px;
     }
 
     .auth-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 28px;
-      padding: 42px 32px;
+      border-top: 1px solid var(--card-border-top);
+      border-radius: 24px;
+      padding: 38px 30px;
       text-align: center;
-      backdrop-filter: blur(28px);
-      -webkit-backdrop-filter: blur(28px);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       box-shadow: 
-        0 24px 60px -12px rgba(0, 0, 0, 0.8),
-        0 0 36px -4px rgba(168, 85, 247, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 24px 60px -12px rgba(0, 0, 0, 0.75),
+        0 0 32px -4px rgba(168, 85, 247, 0.15);
       position: relative;
-      overflow: hidden;
-      animation: cardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .auth-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--primary), var(--primary-gold), transparent);
+      animation: cardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @keyframes cardEnter {
       0% {
         opacity: 0;
-        transform: scale(0.96) translateY(20px);
+        transform: scale(0.97) translateY(16px);
       }
       100% {
         opacity: 1;
@@ -345,120 +292,112 @@
       }
     }
 
+    /* ── Hero Status Icon ── */
     .icon-halo {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 20px;
-      border-radius: 24px;
-      background: linear-gradient(135deg, rgba(168, 85, 247, 0.22) 0%, rgba(124, 58, 237, 0.1) 100%);
-      border: 1px solid rgba(168, 85, 247, 0.35);
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      border-radius: 20px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 32px rgba(168, 85, 247, 0.35);
-      position: relative;
+      box-shadow: 0 0 24px rgba(168, 85, 247, 0.2);
     }
 
     .icon-halo svg {
-      width: 38px;
-      height: 38px;
+      width: 28px;
+      height: 28px;
       color: var(--primary-gold);
-      filter: drop-shadow(0 0 10px rgba(255, 210, 31, 0.45));
     }
 
     .icon-halo.error-halo {
-      background: linear-gradient(135deg, rgba(248, 113, 113, 0.22) 0%, rgba(220, 38, 38, 0.1) 100%);
-      border-color: rgba(248, 113, 113, 0.45);
-      box-shadow: 0 0 32px rgba(248, 113, 113, 0.35);
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.35);
+      box-shadow: 0 0 24px rgba(239, 68, 68, 0.25);
     }
-
     .icon-halo.error-halo svg {
       color: #f87171;
-      filter: drop-shadow(0 0 10px rgba(248, 113, 113, 0.45));
     }
 
     .icon-halo.success-halo {
-      background: linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(16, 185, 129, 0.1) 100%);
-      border-color: rgba(34, 197, 94, 0.45);
-      box-shadow: 0 0 32px rgba(34, 197, 94, 0.35);
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(34, 197, 94, 0.35);
+      box-shadow: 0 0 24px rgba(34, 197, 94, 0.25);
     }
-
     .icon-halo.success-halo svg {
       color: #4ade80;
-      filter: drop-shadow(0 0 10px rgba(74, 222, 128, 0.45));
     }
 
-    .pill-badge {
+    /* ── Pill Badges ── */
+    .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 5px 14px;
-      font-size: 11.5px;
+      gap: 6px;
+      padding: 4px 12px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       border-radius: 999px;
-      background: rgba(168, 85, 247, 0.14);
-      border: 1px solid rgba(168, 85, 247, 0.32);
+      margin-bottom: 12px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
       color: #d8b4fe;
-      margin-bottom: 14px;
     }
 
-    .pill-badge.verifying {
-      background: rgba(255, 210, 31, 0.14);
-      border-color: rgba(255, 210, 31, 0.4);
+    .status-badge.verifying {
+      background: rgba(255, 210, 31, 0.12);
+      border-color: rgba(255, 210, 31, 0.35);
       color: var(--primary-gold);
       animation: pulseBadge 1.5s infinite;
     }
 
-    .pill-badge.error {
-      background: rgba(248, 113, 113, 0.14);
-      border-color: rgba(248, 113, 113, 0.4);
+    .status-badge.error {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.35);
       color: #f87171;
     }
 
-    .pill-badge.success {
-      background: rgba(34, 197, 94, 0.14);
-      border-color: rgba(34, 197, 94, 0.4);
+    .status-badge.success {
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(34, 197, 94, 0.35);
       color: #4ade80;
     }
 
     @keyframes pulseBadge {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
+      50% { opacity: 0.65; }
     }
 
     h1 {
-      font-size: 25px;
-      font-weight: 800;
-      letter-spacing: -0.025em;
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       line-height: 1.25;
       margin-bottom: 10px;
-      background: linear-gradient(135deg, #ffffff 40%, var(--primary-gold) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #ffffff;
     }
 
     .subtitle {
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.55;
       color: var(--text-muted);
-      margin-bottom: 26px;
+      margin-bottom: 22px;
     }
 
-    /* ── Form Groups ── */
+    /* ── Form Inputs ── */
     .form-group {
       text-align: left;
       margin-bottom: 18px;
     }
 
     .field-label {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: block;
       font-size: 13px;
-      font-weight: 600;
-      color: var(--text-main);
+      font-weight: 500;
+      color: #cbd5e1;
       margin-bottom: 8px;
     }
 
@@ -468,19 +407,19 @@
       align-items: center;
       background: var(--input-bg);
       border: 1px solid var(--input-border);
-      border-radius: 14px;
-      transition: all 0.25s ease;
+      border-radius: 12px;
+      transition: all 0.2s ease;
     }
 
     .input-wrapper:focus-within {
       border-color: var(--input-focus);
-      box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
-      background: rgba(13, 9, 26, 0.95);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .input-wrapper.has-error {
       border-color: var(--error) !important;
-      box-shadow: 0 0 20px rgba(248, 113, 113, 0.25) !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
     }
 
     .input-wrapper.is-valid {
@@ -489,16 +428,16 @@
 
     .input-icon {
       position: absolute;
-      left: 16px;
-      width: 18px;
-      height: 18px;
+      left: 14px;
+      width: 17px;
+      height: 17px;
       color: var(--text-dim);
       pointer-events: none;
       transition: color 0.2s ease;
     }
 
     .input-wrapper:focus-within .input-icon {
-      color: var(--primary);
+      color: var(--primary-hover);
     }
 
     .input-wrapper input {
@@ -506,10 +445,10 @@
       background: transparent;
       border: none;
       outline: none;
-      color: var(--text-main);
+      color: #ffffff;
       font-family: inherit;
-      font-size: 15px;
-      padding: 15px 44px 15px 46px;
+      font-size: 14.5px;
+      padding: 13px 40px 13px 42px;
     }
 
     .input-wrapper input::placeholder {
@@ -523,7 +462,7 @@
       border: none;
       color: var(--text-dim);
       cursor: pointer;
-      padding: 6px;
+      padding: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -531,26 +470,26 @@
     }
 
     .eye-toggle:hover {
-      color: var(--primary);
+      color: var(--primary-hover);
     }
 
     /* ── Live Strength Meter ── */
     .strength-wrapper {
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .strength-bars {
       display: flex;
-      gap: 6px;
-      margin-bottom: 6px;
+      gap: 5px;
+      margin-bottom: 5px;
     }
 
     .strength-bar {
-      height: 4px;
+      height: 3.5px;
       flex: 1;
       background: rgba(255, 255, 255, 0.08);
       border-radius: 99px;
-      transition: background 0.3s ease, transform 0.3s ease;
+      transition: background 0.3s ease;
     }
 
     .strength-status {
@@ -563,13 +502,12 @@
 
     .strength-label {
       font-weight: 700;
-      transition: color 0.3s ease;
     }
 
-    /* ── Guidance Chips ── */
+    /* ── Requirements Checklist ── */
     .guidance-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 12px;
       padding: 10px 14px;
       margin-top: 10px;
@@ -591,14 +529,14 @@
     .guidance-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
     }
 
     .chip {
       font-size: 11px;
       padding: 3px 8px;
       border-radius: 6px;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.04);
       color: var(--text-dim);
       display: inline-flex;
       align-items: center;
@@ -607,9 +545,9 @@
     }
 
     .chip.valid {
-      background: rgba(34, 197, 94, 0.15);
+      background: rgba(34, 197, 94, 0.12);
       color: #4ade80;
-      border: 1px solid rgba(34, 197, 94, 0.3);
+      border: 1px solid rgba(34, 197, 94, 0.25);
     }
 
     .match-feedback {
@@ -629,56 +567,38 @@
       color: #f87171;
     }
 
-    /* ── Submit Button ── */
-    .btn-submit {
+    /* ── Buttons ── */
+    .btn-primary {
       width: 100%;
-      padding: 16px 24px;
+      height: 48px;
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-end) 100%);
-      border: none;
-      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
       color: #ffffff;
-      font-size: 15.5px;
-      font-weight: 700;
+      font-size: 15px;
+      font-weight: 600;
       font-family: inherit;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      margin-top: 10px;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35);
+      transition: all 0.2s ease;
       text-decoration: none;
+      margin-top: 8px;
     }
 
-    .btn-submit::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -60%;
-      width: 40%;
-      height: 200%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transform: rotate(25deg);
-      transition: left 0.7s ease;
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.5);
     }
 
-    .btn-submit:hover::after {
-      left: 120%;
+    .btn-primary:active {
+      transform: translateY(0);
     }
 
-    .btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(168, 85, 247, 0.6);
-    }
-
-    .btn-submit:active {
-      transform: translateY(1px);
-    }
-
-    .btn-submit:disabled {
+    .btn-primary:disabled {
       opacity: 0.65;
       cursor: not-allowed;
       transform: none;
@@ -686,18 +606,18 @@
     }
 
     .large-spinner {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border: 3px solid rgba(168, 85, 247, 0.2);
       border-radius: 50%;
-      border-top-color: var(--primary);
-      animation: spin 0.9s linear infinite;
+      border-top-color: var(--primary-hover);
+      animation: spin 0.8s linear infinite;
       margin: 20px auto;
     }
 
-    .btn-spinner {
-      width: 18px;
-      height: 18px;
+    .mini-spinner {
+      width: 13px;
+      height: 13px;
       border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
       border-top-color: #ffffff;
@@ -708,22 +628,16 @@
       to { transform: rotate(360deg); }
     }
 
-    /* ── Info Box ── */
     .info-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
       border-radius: 14px;
       padding: 14px 16px;
       font-size: 13px;
       line-height: 1.55;
       color: var(--text-muted);
-      margin: 18px 0 22px;
+      margin: 18px 0;
       text-align: left;
-    }
-
-    .countdown-highlight {
-      color: var(--primary-gold);
-      font-weight: 700;
     }
 
     .redirect-note {
@@ -732,15 +646,20 @@
       color: var(--text-dim);
     }
 
+    .countdown-highlight {
+      color: var(--primary-gold);
+      font-weight: 700;
+    }
+
     .card-footer {
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       font-size: 13px;
       color: var(--text-dim);
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .card-footer a {
@@ -753,33 +672,6 @@
       color: var(--primary-gold);
     }
 
-    .legal-notice {
-      margin-top: 24px;
-      font-size: 11.5px;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .legal-notice svg {
-      width: 13px;
-      height: 13px;
-      color: var(--primary);
-    }
-
-    /* ── Particle Canvas ── */
-    #confetti-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 999;
-    }
-
     .state-panel {
       display: block;
     }
@@ -788,49 +680,50 @@
       display: none !important;
     }
 
-    @media (max-width: 520px) {
+    @media (max-width: 480px) {
       body {
-        padding: 84px 16px 28px;
+        padding: 76px 16px 28px;
       }
       .auth-card {
-        padding: 34px 20px;
-        border-radius: 22px;
+        padding: 32px 20px;
+        border-radius: 20px;
       }
       h1 {
-        font-size: 22px;
-      }
-      .brand-badge {
-        display: none;
+        font-size: 21px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Ambient Dynamic Background -->
+  <!-- Ambient Lighting -->
   <div class="ambient-bg" aria-hidden="true">
     <div class="ambient-orb orb-1"></div>
     <div class="ambient-orb orb-2"></div>
-    <div class="ambient-orb orb-3"></div>
-    <div class="grid-overlay"></div>
   </div>
 
-  <!-- Celebration Confetti Canvas -->
-  <canvas id="confetti-canvas"></canvas>
-
-  <!-- Top Fixed Brand Header -->
+  <!-- Top Header -->
   <header class="top-header" role="banner">
     <div class="header-container">
       <a href="/" class="brand-link" aria-label="Noa Ai Homepage">
         <div class="brand-logo-frame">
-          <img src="/assets/logo.png" alt="Noa Ai Logo" class="brand-logo-img" width="28" height="28" />
+          <!-- Official Noa Ai Vector Emblem -->
+          <svg class="brand-logo-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="headerHexGradReset" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#A855F7"/>
+                <stop offset="100%" stop-color="#6B11FF"/>
+              </linearGradient>
+            </defs>
+            <polygon points="60,8 109,34 109,86 60,112 11,86 11,34" fill="url(#headerHexGradReset)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+            <text x="60" y="78" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="52" font-weight="800" fill="#FFD21F" letter-spacing="-1">N</text>
+          </svg>
         </div>
         <span class="brand-text">Noa <em>Ai</em></span>
-        <span class="brand-badge">Reset</span>
       </a>
 
       <a href="/" class="home-btn" aria-label="Return to Main Website">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="19" y1="12" x2="5" y2="12"></line>
           <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
@@ -839,20 +732,20 @@
     </div>
   </header>
 
-  <!-- Floating Toast Notifications -->
+  <!-- Toast Notification -->
   <div id="noa-toast" role="alert" aria-live="assertive">
-    <span id="toast-icon">✨</span>
-    <span id="toast-msg">Notification message</span>
+    <span id="toast-icon">✓</span>
+    <span id="toast-msg">Notification</span>
   </div>
 
   <!-- Main Card Container -->
   <main class="card-wrapper">
     <div class="auth-card" id="main-card">
 
-      <!-- ── STATE 1: VERIFYING RECOVERY SESSION (Default Loading) ── -->
+      <!-- ── STATE 1: LOADING LINK ── -->
       <div id="loading-panel" class="state-panel">
-        <div class="pill-badge verifying">
-          <span class="btn-spinner" style="width:12px; height:12px; border-width:2px;"></span>
+        <div class="status-badge verifying">
+          <span class="mini-spinner" style="border-top-color:var(--primary-gold); width:11px; height:11px;"></span>
           <span>Verifying Recovery Link</span>
         </div>
         <h1>Checking Security Link...</h1>
@@ -862,7 +755,7 @@
         <div class="large-spinner"></div>
       </div>
 
-      <!-- ── STATE 2: EXPIRED OR INVALID LINK ── -->
+      <!-- ── STATE 2: EXPIRED LINK ── -->
       <div id="error-panel" class="state-panel hidden">
         <div class="icon-halo error-halo">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -872,7 +765,7 @@
           </svg>
         </div>
 
-        <div class="pill-badge error">
+        <div class="status-badge error">
           <span>Link Expired or Invalid</span>
         </div>
 
@@ -881,13 +774,13 @@
           This password reset authorization link is either invalid, already used, or has expired.
         </p>
 
-        <div class="info-card">
-          For your protection, password recovery tokens expire quickly and can only be used once. Please request a new recovery link.
+        <div class="info-card" style="text-align:center;">
+          For your protection, password recovery tokens expire quickly. Please request a new recovery link.
         </div>
 
-        <a href="/forgot" class="btn-submit">
+        <a href="/forgot" class="btn-primary">
           <span>Request New Reset Link</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
@@ -899,7 +792,7 @@
         </div>
       </div>
 
-      <!-- ── STATE 3: ACTIVE RESET FORM ── -->
+      <!-- ── STATE 3: FORM ACTIVE ── -->
       <div id="form-panel" class="state-panel hidden">
         <div class="icon-halo">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -909,11 +802,7 @@
           </svg>
         </div>
 
-        <div class="pill-badge">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
+        <div class="status-badge">
           <span>Password Recovery</span>
         </div>
 
@@ -925,9 +814,7 @@
         <form id="reset-form" novalidate>
           <!-- New Password Field -->
           <div class="form-group">
-            <label class="field-label" for="inp-new">
-              <span>New Password</span>
-            </label>
+            <label class="field-label" for="inp-new">New Password</label>
             <div class="input-wrapper" id="box-new">
               <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -941,7 +828,7 @@
                 required
               />
               <button type="button" id="toggle-new" class="eye-toggle" aria-label="Toggle password visibility">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
               </button>
             </div>
 
@@ -962,24 +849,22 @@
             <!-- Requirements Chips -->
             <div class="guidance-card" id="guidance-card">
               <div class="guidance-title">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                <span>Password Requirements</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <span>Requirements</span>
               </div>
               <div class="guidance-chips">
                 <span class="chip" id="chip-len">○ 8+ chars</span>
                 <span class="chip" id="chip-upper">○ Uppercase</span>
                 <span class="chip" id="chip-lower">○ Lowercase</span>
                 <span class="chip" id="chip-num">○ Number</span>
-                <span class="chip" id="chip-spec">○ Symbol (!@#$)</span>
+                <span class="chip" id="chip-spec">○ Symbol</span>
               </div>
             </div>
           </div>
 
           <!-- Confirm Password Field -->
           <div class="form-group">
-            <label class="field-label" for="inp-confirm">
-              <span>Confirm Password</span>
-            </label>
+            <label class="field-label" for="inp-confirm">Confirm Password</label>
             <div class="input-wrapper" id="box-confirm">
               <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
@@ -992,15 +877,15 @@
                 required
               />
               <button type="button" id="toggle-confirm" class="eye-toggle" aria-label="Toggle password visibility">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>
               </button>
             </div>
             <div class="match-feedback" id="match-hint"></div>
           </div>
 
-          <button type="submit" id="btn-submit" class="btn-submit">
+          <button type="submit" id="btn-submit" class="btn-primary">
             <span id="btn-text">Update Password</span>
-            <svg id="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg id="btn-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
           </button>
@@ -1012,29 +897,26 @@
         </div>
       </div>
 
-      <!-- ── STATE 4: SUCCESS CONFIRMATION ── -->
+      <!-- ── STATE 4: SUCCESS ── -->
       <div id="success-panel" class="state-panel hidden">
         <div class="icon-halo success-halo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
         </div>
 
-        <div class="pill-badge success">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
+        <div class="status-badge success">
           <span>Password Updated</span>
         </div>
 
         <h1>Password Updated! 🎉</h1>
         <p class="subtitle">
-          Your new credentials are saved. You can now launch Noa Ai to continue learning.
+          Your new credentials are active. You can now launch Noa Ai to continue learning.
         </p>
 
-        <a href="myapp://auth-callback" id="launch-app-btn" class="btn-submit">
+        <a href="myapp://auth-callback" id="launch-app-btn" class="btn-primary">
           <span>Launch Noa Ai App</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
@@ -1050,23 +932,15 @@
       </div>
 
     </div>
-
-    <div class="legal-notice">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-      </svg>
-      <span>Protected by Noa Ai End-to-End Authentication</span>
-    </div>
   </main>
 
   <script>
     (function () {
       'use strict';
 
-      const EYE_OPEN = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
-      const EYE_SLASH = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg>`;
+      const EYE_OPEN = `<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+      const EYE_SLASH = `<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg>`;
 
-      // ── Supabase Configuration ──
       const cfg = window.NOA_CONFIG || {};
       const SUPABASE_URL = cfg.SUPABASE_URL || 'https://lumbpfcruwjqudtdbkrm.supabase.co';
       const SUPABASE_ANON_KEY = cfg.SUPABASE_ANON_KEY || 'sb_publishable_mUkwvs-7BXlOQmPTFBcXVQ_VEqmbQz_';
@@ -1083,7 +957,6 @@
           })
         : null;
 
-      // ── DOM References ──
       const loadingPanel = document.getElementById('loading-panel');
       const errorPanel   = document.getElementById('error-panel');
       const errorDescText= document.getElementById('error-desc-text');
@@ -1152,9 +1025,8 @@
         successPanel.classList.add('hidden');
         formPanel.classList.remove('hidden');
 
-        showToast('Recovery link verified! Please enter your new password.', 'success');
+        showToast('Recovery link verified! Set your new password.', 'success');
 
-        // Security best practice: clean raw token credentials from location bar
         if (window.history && window.history.replaceState) {
           window.history.replaceState({}, document.title, window.location.pathname);
         }
@@ -1179,8 +1051,6 @@
         errorPanel.classList.add('hidden');
         successPanel.classList.remove('hidden');
 
-        triggerConfetti();
-
         let timeLeft = 4;
         if (countdownEl) countdownEl.textContent = timeLeft;
 
@@ -1194,67 +1064,6 @@
         }, 1000);
       }
 
-      /* ── Celebration Confetti ── */
-      function triggerConfetti() {
-        const canvas = document.getElementById('confetti-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const particles = [];
-        const colors = ['#a855f7', '#7c3aed', '#ffd21f', '#ffffff', '#22c55e', '#38bdf8'];
-
-        for (let i = 0; i < 90; i++) {
-          particles.push({
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            vx: (Math.random() - 0.5) * 16,
-            vy: (Math.random() - 0.5) * 16 - 3,
-            size: Math.random() * 7 + 4,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            rotation: Math.random() * 360,
-            rotSpeed: (Math.random() - 0.5) * 10,
-            opacity: 1
-          });
-        }
-
-        let frame = 0;
-        function animate() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          frame++;
-          let stillAlive = false;
-
-          for (const p of particles) {
-            p.x += p.vx;
-            p.y += p.vy;
-            p.vy += 0.35; // gravity
-            p.vx *= 0.98; // air drag
-            p.rotation += p.rotSpeed;
-            if (frame > 30) p.opacity -= 0.018;
-
-            if (p.opacity > 0) {
-              stillAlive = true;
-              ctx.save();
-              ctx.translate(p.x, p.y);
-              ctx.rotate((p.rotation * Math.PI) / 180);
-              ctx.globalAlpha = Math.max(p.opacity, 0);
-              ctx.fillStyle = p.color;
-              ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-              ctx.restore();
-            }
-          }
-
-          if (stillAlive && frame < 150) {
-            requestAnimationFrame(animate);
-          } else {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-          }
-        }
-        animate();
-      }
-
-      /* ── Password Visibility Toggles ── */
       function setupEyeToggle(btn, input) {
         if (!btn || !input) return;
         btn.addEventListener('click', () => {
@@ -1266,7 +1075,6 @@
       setupEyeToggle(toggleNew, inpNew);
       setupEyeToggle(toggleConfirm, inpConfirm);
 
-      /* ── Strength & Validation ── */
       function evaluatePassword(pwd) {
         const hasLen   = pwd.length >= 8;
         const hasUpper = /[A-Z]/.test(pwd);
@@ -1309,7 +1117,7 @@
         updateChip(chipUpper, res.hasUpper, 'Uppercase');
         updateChip(chipLower, res.hasLower, 'Lowercase');
         updateChip(chipNum, res.hasNum, 'Number');
-        updateChip(chipSpec, res.hasSpec, 'Symbol (!@#$)');
+        updateChip(chipSpec, res.hasSpec, 'Symbol');
 
         const bars = [bar1, bar2, bar3, bar4];
         bars.forEach(b => b.style.background = 'rgba(255, 255, 255, 0.08)');
@@ -1365,7 +1173,6 @@
       inpNew.addEventListener('input', updateStrengthUI);
       inpConfirm.addEventListener('input', checkMatch);
 
-      /* ── Form Submission ── */
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
 
@@ -1382,7 +1189,7 @@
 
         if (res.score < 3) {
           boxNew.classList.add('has-error');
-          showToast('Please create a stronger password with letters, numbers, and symbols.', 'error');
+          showToast('Please create a stronger password with letters and numbers.', 'error');
           inpNew.focus();
           return;
         }
@@ -1403,7 +1210,7 @@
         btnText.textContent = 'Updating Password...';
         btnArrow.style.display = 'none';
         const spinner = document.createElement('span');
-        spinner.className = 'btn-spinner';
+        spinner.className = 'mini-spinner';
         spinner.id = 'submit-spinner';
         btnSubmit.appendChild(spinner);
 
@@ -1431,7 +1238,6 @@
         }
       });
 
-      /* ── Auth Session Detection ── */
       async function detectAuth() {
         const params = new URLSearchParams(window.location.search);
         const hash = window.location.hash || '';
@@ -1452,9 +1258,7 @@
           return;
         }
 
-        // Listen for PASSWORD_RECOVERY or SIGNED_IN event
         supabase.auth.onAuthStateChange(async (event, session) => {
-          console.log('[Auth Event]', event, !!session);
           if (event === 'PASSWORD_RECOVERY') {
             showResetForm();
           } else if (event === 'SIGNED_IN' && session) {
@@ -1464,7 +1268,6 @@
           }
         });
 
-        // Case 1: PKCE Code
         if (code) {
           try {
             const { error: exchangeErr } = await supabase.auth.exchangeCodeForSession(code);
@@ -1477,7 +1280,6 @@
           }
         }
 
-        // Case 2: Token Hash OTP
         if (tokenHash) {
           try {
             const { error: otpErr } = await supabase.auth.verifyOtp({
@@ -1493,7 +1295,6 @@
           }
         }
 
-        // Case 3: URL Hash fragment with access token
         if (hash.includes('access_token=') && hash.includes('type=recovery')) {
           try {
             const hashParams = new URLSearchParams(hash.substring(1));
@@ -1509,7 +1310,6 @@
           }
         }
 
-        // Case 4: Check if already signed in with active recovery session
         try {
           const { data: { session } } = await supabase.auth.getSession();
           if (session) {
@@ -1518,7 +1318,6 @@
           }
         } catch (e) {}
 
-        // Timeout fallback after 3.5 seconds if no valid recovery found
         setTimeout(() => {
           if (!recoveryAuthenticated) {
             showErrorState('No active recovery session was found. Please request a new reset link.');
