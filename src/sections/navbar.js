@@ -1,7 +1,7 @@
 /**
  * navbar.js — Sticky dynamic header with mobile drawer & smooth scroll
  */
-import { SITE_NAME, COLLEGE_URL, LOGO_PATH } from '../config/site.js';
+import { SITE_NAME, COLLEGE_URL, LOGO_PATH, APK_DOWNLOAD_URL, APK_FILENAME } from '../config/site.js';
 
 export function initNavbar() {
   const root = document.getElementById('navbar-root');
@@ -26,7 +26,7 @@ export function initNavbar() {
         </nav>
 
         <div class="navbar__actions">
-          <a href="#download" class="btn btn--primary navbar__btn-cta">
+          <a href="${APK_DOWNLOAD_URL}" download="${APK_FILENAME}" class="btn btn--primary navbar__btn-cta">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9996.4482.9996.9993 0 .5511-.4486.9997-.9996.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9996.4482.9996.9993 0 .5511-.4485.9997-.9996.9997m11.4045-6.02l1.996-3.456c.1462-.2533.0594-.5763-.1939-.7225-.2533-.1462-.5763-.0594-.7225.1939l-2.0232 3.5042C15.334 8.2435 13.7226 7.915 12 7.915c-1.7226 0-3.334.3285-4.938 1.0263L5.0388 5.437c-.1462-.2533-.4692-.3401-.7225-.1939-.2533.1462-.3401.4692-.1939.7225l1.996 3.456C2.6876 11.2335.3444 14.928.001 19.2635h23.998c-.3434-4.3355-2.6866-8.03-6.1185-9.9421"/>
             </svg>
@@ -53,7 +53,7 @@ export function initNavbar() {
             <li><a href="#mentor" class="navbar__mobile-link">Mentor (T. Naga Jyothi)</a></li>
           </ul>
           <div class="navbar__mobile-actions">
-            <a href="#download" class="btn btn--primary btn--full mobile-cta">
+            <a href="${APK_DOWNLOAD_URL}" download="${APK_FILENAME}" class="btn btn--primary btn--full mobile-cta">
               <span>Download Android APK (v1.0.0)</span>
             </a>
           </div>

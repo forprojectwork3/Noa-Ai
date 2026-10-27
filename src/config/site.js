@@ -10,10 +10,12 @@ export const SITE_DESC =
 
 export const LOGO_PATH    = '/assets/logo.png';
 export const LOGO_SVG     = '/assets/logo.svg';
-export const APK_DOWNLOAD_URL = '/downloads/NoaAi_v1.0.0.apk';
+export const APK_DOWNLOAD_URL = '/downloads/NoaAI-v1.0.0.apk';
+export const APK_FILENAME    = 'NoaAI-v1.0.0.apk';
 export const APP_VERSION  = 'v1.0.0';
-export const APP_SIZE     = '28.4 MB';
-export const APP_MIN_OS   = 'Android 8.0+';
+export const APP_SIZE     = '14.0 MB';
+export const APP_MIN_OS   = 'Android 7.0+';
+export const APK_SHA256   = '8241FA9AB5B8AEFC1E31FE1FD93DDD2669FA0EF4C9ED6D4FFFFD29A6DC2D3768';
 
 export const docUrl       = '/assets/docs/Noa-Ai-Documentation.pdf';
 export const DOC_FILE_TYPE = 'PDF Document';

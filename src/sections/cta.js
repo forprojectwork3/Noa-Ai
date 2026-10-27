@@ -9,9 +9,11 @@ import {
   TEAM_NAME,
   MENTOR_NAME,
   APK_DOWNLOAD_URL,
+  APK_FILENAME,
   APP_VERSION,
   APP_SIZE,
-  APP_MIN_OS
+  APP_MIN_OS,
+  APK_SHA256
 } from '../config/site.js';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -32,7 +34,7 @@ export function initCta() {
     },
     {
       q: 'How do I install the Noa Ai APK on my Android device?',
-      a: 'Tap the "Download APK" button above to download NoaAi_v1.0.0.apk (~28 MB). Once downloaded, open the file from your notifications or Files app. If Android prompts you with "Install unknown apps", tap Settings and allow installation for your browser/file manager. Then tap Install and open Noa Ai!'
+      a: `Tap the "Download APK" button above to download ${APK_FILENAME} (~${APP_SIZE}). Once downloaded, open the file from your notifications or Files app. If Android prompts you with "Install unknown apps", tap Settings and allow installation for your browser/file manager. Then tap Install and open Noa Ai!`
     },
     {
       q: 'Can I upload my own recorded lecture files from my phone?',
@@ -86,7 +88,7 @@ export function initCta() {
 
         <!-- Download Action Block -->
         <div class="cta-banner__actions" style="margin-bottom: 2rem;">
-          <a href="${APK_DOWNLOAD_URL}" download="NoaAi_v1.0.0.apk" class="btn btn--primary" id="cta-download-btn" style="padding: 1rem 2.75rem; font-size: 1.05rem; box-shadow: 0 12px 36px rgba(168, 85, 247, 0.5);">
+          <a href="${APK_DOWNLOAD_URL}" download="${APK_FILENAME}" class="btn btn--primary" id="cta-download-btn" style="padding: 1rem 2.75rem; font-size: 1.05rem; box-shadow: 0 12px 36px rgba(168, 85, 247, 0.5);">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
               <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9996.4482.9996.9993 0 .5511-.4486.9997-.9996.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9996.4482.9996.9993 0 .5511-.4485.9997-.9996.9997m11.4045-6.02l1.996-3.456c.1462-.2533.0594-.5763-.1939-.7225-.2533-.1462-.5763-.0594-.7225.1939l-2.0232 3.5042C15.334 8.2435 13.7226 7.915 12 7.915c-1.7226 0-3.334.3285-4.938 1.0263L5.0388 5.437c-.1462-.2533-.4692-.3401-.7225-.1939-.2533.1462-.3401.4692-.1939.7225l1.996 3.456C2.6876 11.2335.3444 14.928.001 19.2635h23.998c-.3434-4.3355-2.6866-8.03-6.1185-9.9421"/>
             </svg>
@@ -103,11 +105,17 @@ export function initCta() {
             <span>📋</span><span>Quick Android Installation Steps</span>
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; font-size: 0.775rem; color: var(--clr-text-muted);">
-            <div><strong style="color: #FFFFFF;">1. Tap Download</strong><br/>Get NoaAi_v1.0.0.apk (~28 MB) to your device.</div>
+            <div><strong style="color: #FFFFFF;">1. Tap Download</strong><br/>Get ${APK_FILENAME} (~${APP_SIZE}) to your device.</div>
             <div><strong style="color: #FFFFFF;">2. Open File</strong><br/>Tap the downloaded file from Chrome or Files.</div>
             <div><strong style="color: #FFFFFF;">3. Allow Unknown Apps</strong><br/>Enable permission if Android prompts.</div>
             <div><strong style="color: #FFFFFF;">4. Start Learning</strong><br/>Launch Noa Ai and paste your lecture link!</div>
           </div>
+        </div>
+
+        <!-- SHA-256 Verification Hash -->
+        <div style="max-width: 720px; margin: 0 auto 1.5rem; text-align: center; font-size: 0.675rem; color: var(--clr-text-muted, #64748b);">
+          <strong style="color:#94a3b8;">SHA-256:</strong>
+          <code style="font-size: 0.625rem; word-break: break-all; color: #86efac;">${APK_SHA256}</code>
         </div>
 
         <div class="cta-banner__trust">

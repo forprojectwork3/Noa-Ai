@@ -9,6 +9,7 @@ import {
   TEAM_NAME,
   MENTOR_NAME,
   APK_DOWNLOAD_URL,
+  APK_FILENAME,
   APP_VERSION
 } from '../config/site.js';
 
@@ -47,7 +48,7 @@ export function initFooter() {
             <div class="footer__col">
               <h4 class="footer__heading">App & Tour</h4>
               <ul class="footer__links">
-                <li><a href="${APK_DOWNLOAD_URL}" download="NoaAi_v1.0.0.apk" class="footer__link" style="color: #4ADE80; font-weight: 600;">📥 Download APK (${APP_VERSION})</a></li>
+                <li><a href="${APK_DOWNLOAD_URL}" download="${APK_FILENAME}" class="footer__link" style="color: #4ADE80; font-weight: 600;">📥 Download APK (${APP_VERSION})</a></li>
                 <li><a href="#features" class="footer__link">Smart Notes</a></li>
                 <li><a href="#how-it-works" class="footer__link">How It Works</a></li>
                 <li><a href="#docs" class="footer__link">Documentation</a></li>
