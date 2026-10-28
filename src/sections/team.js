@@ -39,6 +39,7 @@ export function initTeam() {
             ${avatarHTML}
           </div>
           <div>
+            ${member.domain ? `<div class="team-domain">${member.domain}</div>` : ''}
             <h3 class="team-name">${member.name}</h3>
             <span class="team-role">${member.role}</span>
           </div>
