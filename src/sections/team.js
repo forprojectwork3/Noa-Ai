@@ -112,7 +112,7 @@ export function initTeam() {
       grabCursor: true,
       centeredSlides: true,
       slidesPerView: 'auto',
-      initialSlide: 3,
+      initialSlide: 0,
       coverflowEffect: {
         rotate: 20,
         stretch: 0,
