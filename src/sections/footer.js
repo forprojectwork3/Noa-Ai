@@ -83,6 +83,9 @@ export function initFooter() {
             <p class="footer__mentorship">
               Affiliated with <strong><a href="${COLLEGE_URL}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline;">${COLLEGE_NAME}</a></strong> · Guided by <strong>${MENTOR_NAME}</strong>
             </p>
+            <p class="footer__signature" style="margin-top: 0.5rem; font-size: 0.68rem; color: rgba(255, 255, 255, 0.25); letter-spacing: 0.08em; text-transform: uppercase;">
+              Designed & Engineered by <span style="color: rgba(192, 132, 252, 0.5); font-weight: 600;">P. Sudheer</span>
+            </p>
           </div>
 
           <button class="footer__back-to-top" id="back-to-top" aria-label="Scroll back to top">
