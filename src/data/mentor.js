@@ -10,7 +10,7 @@ export const MENTOR = {
   institution: 'Government Polytechnic, Proddatur',
   institutionUrl: 'https://govtpolyproddatur.ac.in/',
   bioPdfUrl: 'https://govtpolyproddatur.ac.in//media/govtpolyproddatur_ac_in/NAGA%20JYOTHI_BIO%20DATA.pdf',
-  photo: '/assets/mentor/t-naga-jyothi.jpg',
+  photo: '/assets/mentor/t-naga-jyothi-portrait.jpg',
   experience: '12+ Years of Academic Leadership',
   quote:
     '"Educational engineering should bridge the gap between classroom lectures and deep conceptual clarity. Noa Ai was conceived under this exact vision for our students."',
