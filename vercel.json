@@ -23,7 +23,7 @@
       "source": "/downloads/(.*).apk",
       "headers": [
         { "key": "Content-Type", "value": "application/vnd.android.package-archive" },
-        { "key": "Content-Disposition", "value": "attachment; filename=\"NoaAI-v1.0.0.apk\"" },
+        { "key": "Content-Disposition", "value": "attachment; filename=\"NoaAI-v1.0.1.apk\"" },
         { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]
     }
